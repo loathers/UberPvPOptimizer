@@ -35,6 +35,39 @@ void loadPvPProperties()
 		print("Your custom weights and settings were loaded successfully.");
 	}
 }
+
+// Booleans for each pvp mini
+boolean laconic = false;
+boolean verbosity = false;
+boolean egghunt = false;
+boolean meatlover = false;
+boolean moarbooze = false;
+boolean showingInitiative = false;
+boolean peaceonearth = false;
+boolean broadResistance = false;
+boolean coldResistance = false;
+boolean hotResistance = false;
+boolean sleazeResistance = false;
+boolean stenchResistance = false;
+boolean spookyResistance = false;
+boolean lightestLoad = false;
+boolean letterCheck = false;
+boolean coldDamage = false;
+boolean hotDamage = false;
+boolean sleazeDamage = false;
+boolean stenchDamage = false;
+boolean spookyDamage = false;
+
+//other variables
+string currentLetter;
+string nextLetter;
+familiar bestFamiliar = $familiar[none];
+boolean dualWield = false;
+item primaryWeapon;			//mainhand
+item secondaryWeapon;		//offhand
+item tertiaryWeapon;		//hand
+item bestOffhand;
+item [string] [int] gear;
    
 void main() 
 {
