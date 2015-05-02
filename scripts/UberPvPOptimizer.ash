@@ -195,7 +195,7 @@ string link(String name) {
 float numeric_modifier2(item i, string modifier) {
 	if (numeric_modifier(i,modifier) != 0) {
 		string mods = string_modifier(i,"Modifiers");
-		class cl = class_modifier( i );
+		class cl = getClass( i );
 		string[int] arr = split_string(mods,",");
 		/**check if the item is even for my class if not don't prefer it **/
 		if (cl != $class[none] && cl != my_class())
