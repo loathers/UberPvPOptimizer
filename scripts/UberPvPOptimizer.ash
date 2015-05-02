@@ -255,12 +255,6 @@ float valuation(item i) {
 }
 
    
-void main() 
-{
-	loadPvPProperties();
-	print("wat");
-}
-
 /** equips gear, but also acquires it from the mall if it is under budget */
 boolean gearup(slot s, item i) {
 	if(i == $item[none]) 
@@ -425,6 +419,9 @@ void main() {
 	print_html("<b>UberPvPOptimizer.ash by UberFerret, a Fork of PVPBestGear by Zekaonar</b>");
 	print_html("Gear will be maximized for the following mini-games:");	
 	print_html("<ul>");
+	
+/**Call Preference/setting load **/
+	loadPvPProperties();
 	
 /*** Determine this season's optimization mini-games ***/	
 	string page = visit_url("peevpee.php?place=rules");
