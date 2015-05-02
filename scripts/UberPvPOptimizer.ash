@@ -305,7 +305,7 @@ float valuation(item i, item i2) {
 		value = nameLength(i) + nameLength(i2);
 		
 	if (letterCheck)
-		value += (lettersinname(i,letterToCheck) + lettersinname(i2,letterToCheck))*letterMomentWeight;
+		value += (lettersinname(i,currentLetter) + lettersinname(i2,currentLetter))*letterMomentWeight;
 		
 	if (egghunt)
 		value += (numeric_modifier2(i,"Item Drop")+numeric_modifier2(i2,"Item Drop"))*itemDropWeight;
