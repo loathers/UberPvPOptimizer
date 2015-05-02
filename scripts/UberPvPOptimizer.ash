@@ -295,7 +295,86 @@ float valuation(item i) {
 	*****/
 	return value;
 }
+/** version that combines 2 items for 2hand compared to 1hand + offhand or dual 1hand.
+Not used atm, 2hand gets -23 penality in Laconic for empty offhand, need to test Verbose */
+float valuation(item i, item i2) {
+	float value = 0;
+	if (laconic)
+		value = 23 - nameLength(i) - nameLength(i2);
+	else if (verbosity)
+		value = nameLength(i) + nameLength(i2);
+		
+	if (letterCheck)
+		value += (lettersinname(i,letterToCheck) + lettersinname(i2,letterToCheck))*letterMomentWeight;
+		
+	if (egghunt)
+		value += (numeric_modifier2(i,"Item Drop")+numeric_modifier2(i2,"Item Drop"))*itemDropWeight;
+		
+	if (weaponDamage)
+		value += (numeric_modifier2(i,"Weapon Damage")+numeric_modifier2(i2,"Weapon Damage"))*weaponDmgWeight;
+	
+	if (meatlover)
+		value += (numeric_modifier2(i,"Meat Drop")+numeric_modifier2(i2,"Meat Drop"))*meatDropWeight;
+				
+	if (moarbooze)
+		value += (numeric_modifier2(i,"Booze Drop")+numeric_modifier2(i2,"Booze Drop"))*boozeDropWeight;
+		
+	if (showingInitiative)
+		value += (numeric_modifier2(i,"Initiative")+numeric_modifier2(i2,"Initiative"))*initiativeWeight;
+		
 
+	if (peaceonearth)
+		value += (numeric_modifier2(i,"Combat Rate")+numeric_modifier2(i2,"Combat Rate"))*combatWeight;
+		
+
+	if (broadResistance) {
+		value += min(numeric_modifier2(i,"Cold Resistance"),min(numeric_modifier2(i,"Hot Resistance"),
+			min(numeric_modifier2(i,"Spooky Resistance"),min(numeric_modifier2(i,"Sleaze Resistance"),
+			numeric_modifier2(i,"Stench Resistance")))))*resistanceWeight
+			
+			+ min(numeric_modifier2(i2,"Cold Resistance"),min(numeric_modifier2(i2,"Hot Resistance"),
+			min(numeric_modifier2(i2,"Spooky Resistance"),min(numeric_modifier2(i2,"Sleaze Resistance"),
+			numeric_modifier2(i2,"Stench Resistance")))))*resistanceWeight;
+	}	
+
+	if (coldResistance)
+		value += numeric_modifier2(i,"Cold Resistance")*resistanceWeight;
+
+	if (hotResistance)
+		value += numeric_modifier2(i,"Hot Resistance")*resistanceWeight;
+		
+	if (sleazeResistance)
+		value += numeric_modifier2(i,"Sleaze Resistance")*resistanceWeight;
+		
+	if (stenchResistance)
+		value += numeric_modifier2(i,"Stench Resistance")*resistanceWeight;
+		
+	if (spookyResistance)
+		value += numeric_modifier2(i,"Spooky Resistance")*resistanceWeight;
+
+	if (coldDamage) {
+		value += numeric_modifier2(i,"Cold Damage")*damageWeight+numeric_modifier2(i,"Cold Spell Damage")*damageWeight;
+	}
+	
+	if (hotDamage) {
+		value += numeric_modifier2(i,"Hot Damage")*damageWeight+numeric_modifier2(i,"Hot Spell Damage")*damageWeight;
+	}
+	
+	if (sleazeDamage) {
+		value += numeric_modifier2(i,"Sleaze Damage")*damageWeight+numeric_modifier2(i,"Sleaze Spell Damage")*damageWeight;
+	}
+	
+	if (stenchDamage) {
+		value += numeric_modifier2(i,"Stench Damage")*damageWeight+numeric_modifier2(i,"Stench Spell Damage")*damageWeight;
+	}
+	
+	if (spookyDamage) {
+		value += numeric_modifier2(i,"Spooky Damage")*damageWeight+numeric_modifier2(i,"Spooky Spell Damage")*damageWeight;
+	}
+
+
+	return value;
+}
    
 /** equips gear, but also acquires it from the mall if it is under budget */
 boolean gearup(slot s, item i) {
