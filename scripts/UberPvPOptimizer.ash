@@ -47,27 +47,47 @@ void loadPvPProperties()
 	
 	/***Load settings ***/
 	
-	boolean showAllItems = pvpGear["showAllItems"].to_boolean();			// When false, only shows items you own or within mall budget
-	boolean buyGear = pvpGear["buyGear"].to_boolean();					// Will auto-buy from mall if below threshold price and better than what you have
-	int maxPrice = pvpGear["maxBuyPrice"].to_int();					// Max price that will be considered to auto buy gear if you don't have it
-	int topItems = pvpGear["topItems"].to_int();						// Number of items to display in the output lists
-	boolean displayUnownedBling = pvpGear["limitExpensiveDisplay"].to_boolean();	// Set to false to prevent the item outputs from showing items worth [bling] or more
-	int bling = pvpGear["defineExpensive"].to_int();					// define amount for value limiter to show 10,000,000 default
+	showAllItems = pvpGear["showAllItems"].to_boolean();			// When false, only shows items you own or within mall budget
+	buyGear = pvpGear["buyGear"].to_boolean();					// Will auto-buy from mall if below threshold price and better than what you have
+	maxPrice = pvpGear["maxBuyPrice"].to_int();					// Max price that will be considered to auto buy gear if you don't have it
+	topItems = pvpGear["topItems"].to_int();						// Number of items to display in the output lists
+	displayUnownedBling = pvpGear["limitExpensiveDisplay"].to_boolean();	// Set to false to prevent the item outputs from showing items worth [bling] or more
+	bling = pvpGear["defineExpensive"].to_int();					// define amount for value limiter to show 10,000,000 default
 
-	float letterMomentWeight = pvpGear["letterMomentWeight"];			// Example: An "S" is worth 3 letters in laconic/verbosity
-	float nextLetterWeight = pvpGear["nextLetterWeight"];			// Example: allow a future letter to be a tie-breaker
-	float itemDropWeight = pvpGear["itemDropWeight"];		// 4 per 5% drop Example: +8% items is worth 10 letters in laconic/verbosity
-	float meatDropWeight = pvpGear["meatDropWeight"];		// 3 per 5% drop Example: +25% meat is worth 15 letters in laconic/verbosity
-	float boozeDropWeight = pvpGear["boozeDropWeight"];		// 3 per 5% drop Example: +20% booze is worth 12 letters in laconic/verbosity
-	float initiativeWeight = pvpGear["initiativeWeight"];	// 4 per 10% initiative Example: +20% initiative is worth 8 letters in laconic/verbosity
-	float combatWeight = pvpGear["combatWeight"];		// 4 per 10% combat Example: +20% combat is worth 8 letters in laconic/verbosity
-	float resistanceWeight = pvpGear["resistanceWeight"];			// Example: +1 Resistance to all elements equals 6 letters of laconic/verbosity
-	float powerWeight = pvpGear["powerWeight"];			// Example: 5 points for -10 points of power towards Lightest Load vs average(110) power in slot.  
-	float damageWeight = pvpGear["damageWeight"];			// Example: 4 points for 10 points of damage.
-	float negativeClassWeight = pvpGear["negativeClassWeight"];			// Off class items are given a 0, adjust as you see fit.
-	float weaponDmgWeight = pvpGear["weaponDmgWeight"];
+	letterMomentWeight = pvpGear["letterMomentWeight"];			// Example: An "S" is worth 3 letters in laconic/verbosity
+	nextLetterWeight = pvpGear["nextLetterWeight"];			// Example: allow a future letter to be a tie-breaker
+	itemDropWeight = pvpGear["itemDropWeight"];		// 4 per 5% drop Example: +8% items is worth 10 letters in laconic/verbosity
+	meatDropWeight = pvpGear["meatDropWeight"];		// 3 per 5% drop Example: +25% meat is worth 15 letters in laconic/verbosity
+	boozeDropWeight = pvpGear["boozeDropWeight"];		// 3 per 5% drop Example: +20% booze is worth 12 letters in laconic/verbosity
+	initiativeWeight = pvpGear["initiativeWeight"];	// 4 per 10% initiative Example: +20% initiative is worth 8 letters in laconic/verbosity
+	combatWeight = pvpGear["combatWeight"];		// 4 per 10% combat Example: +20% combat is worth 8 letters in laconic/verbosity
+	resistanceWeight = pvpGear["resistanceWeight"];			// Example: +1 Resistance to all elements equals 6 letters of laconic/verbosity
+	powerWeight = pvpGear["powerWeight"];			// Example: 5 points for -10 points of power towards Lightest Load vs average(110) power in slot.  
+	damageWeight = pvpGear["damageWeight"];			// Example: 4 points for 10 points of damage.
+	negativeClassWeight = pvpGear["negativeClassWeight"];			// Off class items are given a 0, adjust as you see fit.
+	weaponDmgWeight = pvpGear["weaponDmgWeight"];
 	
 }
+//Declare all the variables
+	boolean showAllItems;
+	boolean buyGear;
+	int maxPrice;
+	int topItems;
+	boolean displayUnownedBling;
+	int bling;
+
+	float letterMomentWeight;
+	float nextLetterWeight;
+	float itemDropWeight;
+	float meatDropWeight;
+	float boozeDropWeight;
+	float initiativeWeight;
+	float combatWeight;
+	float resistanceWeight;
+	float powerWeight;
+	float damageWeight;
+	float negativeClassWeight;
+	float weaponDmgWeight;
 
 // Booleans for each pvp mini
 boolean laconic = false;
@@ -394,32 +414,9 @@ string gearString(item i) {
 }
 
 
-/** pretty print familiar details related to the active minigames */
-string familiarString(familiar f) {
-
-	int weight = familiar_weight(f);	
-	if (!have_familiar(f))
-		weight = 20;
-	item fequip = familiar_equipment(f);
-	string hasFamEquip = "";
-	if (available_amount(fequip) > 0) {
-		
-		weight += numeric_modifier2(fequip,"Familiar Weight");
-	} else {
-		hasFamEquip = "(missing)";
-	}
-	//weight += weight_adjustment();
-		
-	string gearString = link(f) + " w/ " + link(familiar_equipment(f)) + hasFamEquip + " " + weight + " lbs. " + round(valuationFamiliar(f,0,$item[none]));
-	if (laconic || verbosity)
-		gearString += ", " + nameLength(familiar_equipment(f)) + " chars";
-	if (letterCheck && lettersinname(familiar_equipment(f),letterToCheck) > 0)
-		gearString += ", " + lettersinname(familiar_equipment(f),letterToCheck) + " letter " + letterToCheck;
-		
-	if (have_familiar(f))
-		gearString += ", owned by player";
-	return gearString;
-}
+/*******
+	Snipped familiars
+********/
 
 
 /** loop through gear to find the best one you can get and equip */
