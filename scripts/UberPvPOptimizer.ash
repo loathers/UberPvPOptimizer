@@ -592,7 +592,7 @@ void main() {
 		if (price == 0) 
 			price = historical_price(i);
 		if((s != $slot[none] && showAllItems && can_equip(i)) 
-			|| (s != $slot[none] && can_equip(i) && canGet(i))) {
+			|| (s != $slot[none] && can_equip(i) && canAcquire(i))) {
 			
 			string modstring = string_modifier(i,"Modifiers");
 			// filter situational items that don't apply to fighting in arena
@@ -671,7 +671,7 @@ void main() {
 
 	int k = 0;
 	for j from 0 to Count(gear["weapon"])-1 by 1 {
-		if(canGet(gear["weapon"][j])) {
+		if(canAcquire(gear["weapon"][j])) {
 			bestWeapon = gear["weapon"][j];
 			k = j;
 			break;			
@@ -683,14 +683,14 @@ void main() {
 		secondWeapon = bestWeapon;
 	else {
 		for j from k+1 to Count(gear["weapon"])-1 by 1 {
-			if(canGet(gear["weapon"][j]) && weapon_type(gear["weapon"][j]) == weapon_type(bestWeapon)) {
+			if(canAcquire(gear["weapon"][j]) && weapon_type(gear["weapon"][j]) == weapon_type(bestWeapon)) {
 				secondWeapon = gear["weapon"][j];
 				break;			
 			}
 		}	
 	}
 	for j from 0 to Count(gear["off-hand"])-1 by 1 {
-		if(canGet(gear["off-hand"][j])) {
+		if(canAcquire(gear["off-hand"][j])) {
 			bestOffhand = gear["off-hand"][j];
 			k = j;
 			break;			
