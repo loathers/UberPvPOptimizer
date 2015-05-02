@@ -52,7 +52,6 @@ boolean spookyDamage = false;
 //other variables
 string currentLetter;
 string nextLetter;
-familiar bestFamiliar = $familiar[none];
 boolean dualWield = false;
 item primaryWeapon;			//mainhand
 item secondaryWeapon;		//offhand
@@ -219,7 +218,7 @@ float valuation(item i) {
 		value = nameLength(i);
 		
 	if (letterCheck) {
-		value += lettersinname(i,letterToCheck)*letterMomentWeight;
+		value += lettersinname(i,currentLetter)*letterMomentWeight;
 		value += lettersinname(i,nextLetter)*nextLetterWeight;
 	}
 		
@@ -330,8 +329,8 @@ string gearString(item i) {
 		gearString += valuation(i);
 	if (laconic || verbosity)
 		gearString += ", " + nameLength(i) + " chars";
-	if (letterCheck && lettersinname(i,letterToCheck) > 0)
-		gearString += ", " + lettersinname(i,letterToCheck) + " letter " + letterToCheck;
+	if (letterCheck && lettersinname(i,currentLetter) > 0)
+		gearString += ", " + lettersinname(i,currentLetter) + " letter " + currentLetter;
 	if (egghunt && numeric_modifier2(i,"Item Drop") > 0)
 		gearString += ", +" + numeric_modifier2(i,"Item Drop") + "% Item Drop";
 	if (meatlover && numeric_modifier2(i,"Meat Drop") > 0)
@@ -561,7 +560,7 @@ void main() {
 	}		
 	if (index_of(page, "Spirit of Noel") != -1) {
 		letterCheck = true;	
-		letterToCheck = "L";
+		currentLetter = "L";
 		nextLetter = "L";
 		letterMomentWeight = -letterMomentWeight;
 		nextLetterWeight = 0;
@@ -570,14 +569,14 @@ void main() {
 	if (index_of(page, "Letter of the Moment") != -1) {
 		letterCheck = true;	
 		int start = index_of(page, "Who has the most <b>");
-		letterToCheck = substring(page,start+20,start+21);
-//		letterToCheck="X";			//hacky way to force optimizing a letter
+		currentLetter = substring(page,start+20,start+21);
+//		currentLetter="X";			//hacky way to force optimizing a letter
 		start = index_of(page, "Changing to <b>");
 		nextLetter = substring(page,start+15,start+16);
 		start = index_of(page, "</b> in ");
 		int end = index_of(page," seconds.)");
 		string secs = substring(page,start+8,end);		
-		print_html("<li>Letter of the Moment: " + letterToCheck + ", next " + nextLetter + " </li>");
+		print_html("<li>Letter of the Moment: " + currentLetter + ", next " + nextLetter + " </li>");
 	}
 	print_html("</ul>");
 	
