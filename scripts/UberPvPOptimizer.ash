@@ -47,12 +47,12 @@ void loadPvPProperties()
 	
 	/***Load settings ***/
 	
-	boolean showAllItems = pvpGear["showAllItems"];			// When false, only shows items you own or within mall budget
-	boolean buyGear = pvpGear["buyGear"];					// Will auto-buy from mall if below threshold price and better than what you have
-	int maxPrice = pvpGear["maxBuyPrice"];					// Max price that will be considered to auto buy gear if you don't have it
-	int topItems = pvpGear["topItems"];						// Number of items to display in the output lists
-	boolean displayUnownedBling = pvpGear["limitExpensiveDisplay"];	// Set to false to prevent the item outputs from showing items worth [bling] or more
-	int bling = pvpGear["defineExpensive"];					// define amount for value limiter to show 10,000,000 default
+	boolean showAllItems = pvpGear["showAllItems"].to_boolean();			// When false, only shows items you own or within mall budget
+	boolean buyGear = pvpGear["buyGear"].to_boolean();					// Will auto-buy from mall if below threshold price and better than what you have
+	int maxPrice = pvpGear["maxBuyPrice"].to_int();					// Max price that will be considered to auto buy gear if you don't have it
+	int topItems = pvpGear["topItems"].to_int();						// Number of items to display in the output lists
+	boolean displayUnownedBling = pvpGear["limitExpensiveDisplay"].to_boolean();	// Set to false to prevent the item outputs from showing items worth [bling] or more
+	int bling = pvpGear["defineExpensive"].to_int();					// define amount for value limiter to show 10,000,000 default
 
 	float letterMomentWeight = pvpGear["letterMomentWeight"];			// Example: An "S" is worth 3 letters in laconic/verbosity
 	float nextLetterWeight = pvpGear["nextLetterWeight"];			// Example: allow a future letter to be a tie-breaker
