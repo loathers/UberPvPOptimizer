@@ -218,8 +218,8 @@ float valuation(item i) {
 		value = nameLength(i);
 		
 	if (letterCheck) {
-		value += lettersinname(i,currentLetter)*letterMomentWeight;
-		value += lettersinname(i,nextLetter)*nextLetterWeight;
+		value += letterCount(i,currentLetter)*letterMomentWeight;
+		value += letterCount(i,nextLetter)*nextLetterWeight;
 	}
 		
 	if (egghunt)
@@ -329,8 +329,8 @@ string gearString(item i) {
 		gearString += valuation(i);
 	if (laconic || verbosity)
 		gearString += ", " + nameLength(i) + " chars";
-	if (letterCheck && lettersinname(i,currentLetter) > 0)
-		gearString += ", " + lettersinname(i,currentLetter) + " letter " + currentLetter;
+	if (letterCheck && letterCount(i,currentLetter) > 0)
+		gearString += ", " + letterCount(i,currentLetter) + " letter " + currentLetter;
 	if (egghunt && numeric_modifier2(i,"Item Drop") > 0)
 		gearString += ", +" + numeric_modifier2(i,"Item Drop") + "% Item Drop";
 	if (meatlover && numeric_modifier2(i,"Meat Drop") > 0)
