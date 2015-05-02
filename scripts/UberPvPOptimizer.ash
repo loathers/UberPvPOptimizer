@@ -323,10 +323,6 @@ boolean gearup(slot s, item i) {
 /** pretty print item details related to the active minigames */
 string gearString(item i) {
 	string gearString = link(i) + " ";
-	if (to_slot(i) == $slot[familiar] && bestFamiliar != $familiar[none]) 
-		gearString += round(valuationFamiliar(bestFamiliar,0,i));
-	else
-		gearString += valuation(i);
 	if (laconic || verbosity)
 		gearString += ", " + nameLength(i) + " chars";
 	if (letterCheck && letterCount(i,currentLetter) > 0)
