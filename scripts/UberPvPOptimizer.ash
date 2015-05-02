@@ -680,11 +680,11 @@ void main() {
 	bestGear("weapon", $slot[weapon]);
 	
 	if (available_amount(primaryWeapon)-equipped_amount(primaryWeapon) > 1 || (historical_price(primaryWeapon) < maxPrice && historical_price(primaryWeapon) > 0))
-		secondWeapon = primaryWeapon;
+		secondaryWeapon = primaryWeapon;
 	else {
 		for j from k+1 to Count(gear["weapon"])-1 by 1 {
 			if(canAcquire(gear["weapon"][j]) && weapon_type(gear["weapon"][j]) == weapon_type(primaryWeapon)) {
-				secondWeapon = gear["weapon"][j];
+				secondaryWeapon = gear["weapon"][j];
 				break;			
 			}
 		}	
@@ -698,15 +698,15 @@ void main() {
 	}
 
 	if ((!dualWield 
-		|| valuation(primaryWeapon,bestOffhand) < valuation(primaryWeapon,secondWeapon))) {
+		|| valuation(primaryWeapon,bestOffhand) < valuation(primaryWeapon,secondaryWeapon))) {
 		gearup($slot[off-hand],bestOffhand);
 		print_html("<b>Best Available off-hand:</b> " + gearString(bestOffhand));
 		print_html(string_modifier(bestOffhand,"Modifiers"));				
 		
 	} else {
-		gearup($slot[off-hand],secondWeapon);
-		print_html("<b>Best 2nd weapon:</b> " + gearString(secondWeapon));
-		print_html(string_modifier(secondWeapon,"Modifiers"));						
+		gearup($slot[off-hand],secondaryWeapon);
+		print_html("<b>Best 2nd weapon:</b> " + gearString(secondaryWeapon));
+		print_html(string_modifier(secondaryWeapon,"Modifiers"));						
 	}
 	bestGear("pants", $slot[pants]);
 	bestGear("acc1", $slot[acc1]);
