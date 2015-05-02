@@ -44,6 +44,29 @@ void loadPvPProperties()
 	{
 		print("Your custom weights and settings were loaded successfully.");
 	}
+	
+	/***Load settings ***/
+	
+	boolean showAllItems = pvpGear["showAllItems"];			// When false, only shows items you own or within mall budget
+	boolean buyGear = pvpGear["buyGear"];					// Will auto-buy from mall if below threshold price and better than what you have
+	int maxPrice = pvpGear["maxBuyPrice"];					// Max price that will be considered to auto buy gear if you don't have it
+	int topItems = pvpGear["topItems"];						// Number of items to display in the output lists
+	boolean displayUnownedBling = pvpGear["limitExpensiveDisplay"];	// Set to false to prevent the item outputs from showing items worth [bling] or more
+	int bling = pvpGear["defineExpensive"];					// define amount for value limiter to show 10,000,000 default
+
+	float letterMomentWeight = pvpGear["letterMomentWeight"];			// Example: An "S" is worth 3 letters in laconic/verbosity
+	float nextLetterWeight = pvpGear["nextLetterWeight"];			// Example: allow a future letter to be a tie-breaker
+	float itemDropWeight = pvpGear["itemDropWeight"];		// 4 per 5% drop Example: +8% items is worth 10 letters in laconic/verbosity
+	float meatDropWeight = pvpGear["meatDropWeight"];		// 3 per 5% drop Example: +25% meat is worth 15 letters in laconic/verbosity
+	float boozeDropWeight = pvpGear["boozeDropWeight"];		// 3 per 5% drop Example: +20% booze is worth 12 letters in laconic/verbosity
+	float initiativeWeight = pvpGear["initiativeWeight"];	// 4 per 10% initiative Example: +20% initiative is worth 8 letters in laconic/verbosity
+	float combatWeight = pvpGear["combatWeight"];		// 4 per 10% combat Example: +20% combat is worth 8 letters in laconic/verbosity
+	float resistanceWeight = pvpGear["resistanceWeight"];			// Example: +1 Resistance to all elements equals 6 letters of laconic/verbosity
+	float powerWeight = pvpGear["powerWeight"];			// Example: 5 points for -10 points of power towards Lightest Load vs average(110) power in slot.  
+	float damageWeight = pvpGear["damageWeight"];			// Example: 4 points for 10 points of damage.
+	float negativeClassWeight = pvpGear["negativeClassWeight"];			// Off class items are given a 0, adjust as you see fit.
+	float weaponDmgWeight = pvpGear["weaponDmgWeight"];
+	
 }
 
 // Booleans for each pvp mini
