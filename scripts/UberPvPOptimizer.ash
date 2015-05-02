@@ -25,6 +25,7 @@ float powerWeight;
 float damageWeight;
 float negativeClassWeight;
 float weaponDmgWeight;
+float nakedWeight;
 
 // Booleans for each pvp mini
 boolean laconic = false;
@@ -87,6 +88,7 @@ void loadPvPProperties()
 		pvpGear["damageWeight"] = 4.0/10.0;					// Example: 4 points for 10 points of damage.
 		pvpGear["negativeClassWeight"] = -5;				// Give a negative weight to items that are not for your class.
 		pvpGear["weaponDmgWeight"] = (7.0);					// Weight weapon damage very highly
+		pvpGear["nakedWeight"] = (5.0)	//WORK IN PROGRESS
 
 		if (map_to_file( pvpGear , "pvpGearProperties.txt" ))
 		   print( "Weight and properties saved." );
@@ -119,6 +121,7 @@ void loadPvPProperties()
 	damageWeight = pvpGear["damageWeight"];			// Example: 4 points for 10 points of damage.
 	negativeClassWeight = pvpGear["negativeClassWeight"];			// Off class items are given a 0, adjust as you see fit.
 	weaponDmgWeight = pvpGear["weaponDmgWeight"];
+	nakedWeight = pvpGear["nakedWeight"];	//WORK IN PROGRESS
 	
 }
 
