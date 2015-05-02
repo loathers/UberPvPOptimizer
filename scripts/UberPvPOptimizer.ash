@@ -1,7 +1,7 @@
 /*	Original script written by Zekaonar
 *	Updated by Crowther
 *	Rewritten by UberFerret		*/
-script "UberPvPOptimizer.ash"
+script "UberPvPOptimizer.ash";
 notify "UberFerret";
 import <zlib.ash>;
 
