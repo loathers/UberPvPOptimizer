@@ -5,6 +5,60 @@ script "UberPvPOptimizer.ash"
 notify "UberFerret";
 import <zlib.ash>;
 
+//Declare all the variables
+boolean showAllItems;
+boolean buyGear;
+int maxPrice;
+int topItems;
+boolean displayUnownedBling;
+int bling;
+
+float letterMomentWeight;
+float nextLetterWeight;
+float itemDropWeight;
+float meatDropWeight;
+float boozeDropWeight;
+float initiativeWeight;
+float combatWeight;
+float resistanceWeight;
+float powerWeight;
+float damageWeight;
+float negativeClassWeight;
+float weaponDmgWeight;
+
+// Booleans for each pvp mini
+boolean laconic = false;
+boolean verbosity = false;
+boolean egghunt = false;
+boolean meatlover = false;
+boolean weaponDamage = false;
+boolean moarbooze = false;
+boolean showingInitiative = false;
+boolean peaceonearth = false;
+boolean broadResistance = false;
+boolean coldResistance = false;
+boolean hotResistance = false;
+boolean sleazeResistance = false;
+boolean stenchResistance = false;
+boolean spookyResistance = false;
+boolean lightestLoad = false;
+boolean letterCheck = false;
+boolean coldDamage = false;
+boolean hotDamage = false;
+boolean sleazeDamage = false;
+boolean stenchDamage = false;
+boolean spookyDamage = false;
+
+//other variables
+string currentLetter;
+string nextLetter;
+familiar bestFamiliar = $familiar[none];
+boolean dualWield = false;
+item primaryWeapon;			//mainhand
+item secondaryWeapon;		//offhand
+item tertiaryWeapon;		//hand
+item bestOffhand;
+item [string] [int] gear;
 
 
 void loadPvPProperties()
@@ -68,60 +122,6 @@ void loadPvPProperties()
 	weaponDmgWeight = pvpGear["weaponDmgWeight"];
 	
 }
-//Declare all the variables
-	boolean showAllItems;
-	boolean buyGear;
-	int maxPrice;
-	int topItems;
-	boolean displayUnownedBling;
-	int bling;
-
-	float letterMomentWeight;
-	float nextLetterWeight;
-	float itemDropWeight;
-	float meatDropWeight;
-	float boozeDropWeight;
-	float initiativeWeight;
-	float combatWeight;
-	float resistanceWeight;
-	float powerWeight;
-	float damageWeight;
-	float negativeClassWeight;
-	float weaponDmgWeight;
-
-// Booleans for each pvp mini
-boolean laconic = false;
-boolean verbosity = false;
-boolean egghunt = false;
-boolean meatlover = false;
-boolean weaponDamage = false;
-boolean moarbooze = false;
-boolean showingInitiative = false;
-boolean peaceonearth = false;
-boolean broadResistance = false;
-boolean coldResistance = false;
-boolean hotResistance = false;
-boolean sleazeResistance = false;
-boolean stenchResistance = false;
-boolean spookyResistance = false;
-boolean lightestLoad = false;
-boolean letterCheck = false;
-boolean coldDamage = false;
-boolean hotDamage = false;
-boolean sleazeDamage = false;
-boolean stenchDamage = false;
-boolean spookyDamage = false;
-
-//other variables
-string currentLetter;
-string nextLetter;
-familiar bestFamiliar = $familiar[none];
-boolean dualWield = false;
-item primaryWeapon;			//mainhand
-item secondaryWeapon;		//offhand
-item tertiaryWeapon;		//hand
-item bestOffhand;
-item [string] [int] gear;
 
 //return the class of an item
 class getClass(item i)
