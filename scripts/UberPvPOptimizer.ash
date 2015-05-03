@@ -88,7 +88,7 @@ void loadPvPProperties()
 		pvpGear["damageWeight"] = 4.0/10.0;					// Example: 4 points for 10 points of damage.
 		pvpGear["negativeClassWeight"] = -5;				// Give a negative weight to items that are not for your class.
 		pvpGear["weaponDmgWeight"] = (7.0);					// Weight weapon damage very highly
-		pvpGear["nakedWeight"] = (5.0)	//WORK IN PROGRESS
+		pvpGear["nakedWeight"] = (5.0);	//WORK IN PROGRESS
 
 		if (map_to_file( pvpGear , "pvpGearProperties.txt" ))
 		   print( "Weight and properties saved." );
