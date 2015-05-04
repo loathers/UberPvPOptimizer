@@ -84,21 +84,21 @@ void loadPvPProperties()
 		pvpGear["boozeDropWeight"] = (3.0/5.0);				// 3 per 5% drop Example: +20% booze is worth 12 letters in laconic/verbosity
 		pvpGear["initiativeWeight"] = (4.0/10.0);			// 4 per 10% initiative Example: +20% initiative is worth 8 letters in laconic/verbosity
 		pvpGear["combatWeight"] = (15.0/5.0);				// 4 per 10% combat Example: +20% combat is worth 8 letters in laconic/verbosity
-		pvpGear["resistanceWeight"] = 6.0;					// Example: +1 Resistance to all elements equals 6 letters of laconic/verbosity
+		pvpGear["resistanceWeight"] = 4.9;					// Example: +1 Resistance to all elements equals 6 letters of laconic/verbosity
 		pvpGear["powerWeight"] = (5.0/10.0);				// Example: 5 points for -10 points of power towards Lightest Load vs average(110) power in slot.  
 		pvpGear["damageWeight"] = 4.0/10.0;					// Example: 4 points for 10 points of damage.
 		pvpGear["negativeClassWeight"] = -5;				// Give a negative weight to items that are not for your class.
 		pvpGear["weaponDmgWeight"] = (0.5);					// messing with this
-		pvpGear["nakedWeight"] = (8.0);						//WORK IN PROGRESS
+		pvpGear["nakedWeight"] = (7.4);						//WORK IN PROGRESS
 
 		if (map_to_file( pvpGear , "pvpGearProperties.txt" ))
-		   print( "Weight and properties saved." );
+		   print_html( "Weight and properties saved." );
 		else
-		   print( "There was a problem saving your properties." );
+		   print_html( "There was a problem saving your properties." );
 	}
 	else
 	{
-		print("Your custom weights and settings were loaded successfully.");
+		print_html("Your custom weights and settings were loaded successfully.");
 	}
 	
 	/***Load settings ***/
@@ -506,7 +506,7 @@ void bestGear(string slotString, slot s) {
 		//try to handle Barely Dressed mini
 		if (leastGear && valuation(gear[slotString][j]) < nakedWeight)
 		{
-			print_html("<b>Best Available " + s + ":</b> " + "None");
+			print_html("<b>Best Available " + s + ":</b> " + "None, value: " + nakedWeight);
 			break;			
 		}
 		//this simultaneously checks if a piece can be equipped and tries to do so
@@ -522,11 +522,13 @@ void bestGear(string slotString, slot s) {
 
 void main() {
 	print_html("<b>UberPvPOptimizer.ash by UberFerret, a Fork of PVPBestGear by Zekaonar</b>");
-	print_html("Gear will be maximized for the following mini-games:");	
-	print_html("<ul>");
 	
 /**Call Preference/setting load **/
-	loadPvPProperties();
+	loadPvPProperties();	
+	
+	print_html("Gear will be maximized for the following mini-games:");	
+	print_html("<ul>");	
+
 	
 /*** Determine this season's optimization mini-games ***/	
 	string page = visit_url("peevpee.php?place=rules");
