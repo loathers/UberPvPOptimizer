@@ -49,6 +49,7 @@ boolean hotDamage = false;
 boolean sleazeDamage = false;
 boolean stenchDamage = false;
 boolean spookyDamage = false;
+boolean leastGear = false;
 
 //other variables
 string currentLetter;
@@ -87,8 +88,8 @@ void loadPvPProperties()
 		pvpGear["powerWeight"] = (5.0/10.0);				// Example: 5 points for -10 points of power towards Lightest Load vs average(110) power in slot.  
 		pvpGear["damageWeight"] = 4.0/10.0;					// Example: 4 points for 10 points of damage.
 		pvpGear["negativeClassWeight"] = -5;				// Give a negative weight to items that are not for your class.
-		pvpGear["weaponDmgWeight"] = (7.0);					// Weight weapon damage very highly
-		pvpGear["nakedWeight"] = (5.0);	//WORK IN PROGRESS
+		pvpGear["weaponDmgWeight"] = (0.5);					// messing with this
+		pvpGear["nakedWeight"] = (8.0);		`				//WORK IN PROGRESS
 
 		if (map_to_file( pvpGear , "pvpGearProperties.txt" ))
 		   print( "Weight and properties saved." );
@@ -395,7 +396,7 @@ boolean gearup(slot s, item i) {
 				take_closet( 1, i );
 			}
 	    }
-	    return equip(s, i);
+	    return equip(s, i);	//this is where the actual equipping happens
 	}
 	else 
 	    return false;
@@ -416,7 +417,7 @@ string gearString(item i) {
 	if (moarbooze && numeric_modifier2(i,"Booze Drop") > 0)
 		gearString += ", +" + numeric_modifier2(i,"Booze Drop") + "% Booze Drop";
 	if (weaponDamage && numeric_modifier2(i,"Weapon Damage") > 0)
-		gearString += ", +" + numeric_modifier2(i,"Weapon Damage") + "% Weapon Damage";
+		gearString += ", +" + numeric_modifier2(i,"Weapon Damage") + " Weapon Damage";
 	if (showingInitiative && numeric_modifier2(i,"Initiative") > 0)
 		gearString += ", +" + numeric_modifier2(i,"Initiative") + "% Initiative";
 	if (peaceonearth && numeric_modifier2(i,"Combat Rate") > 0)
@@ -486,7 +487,8 @@ string gearString(item i) {
 	else if (npc_price(i) > 0)
 		gearString += ", for sale by npc for " + npc_price(i);		
 	else if (historical_price(i) > 0)
-		gearString += ", for sale on mall for " + historical_price(i);
+		gearString += ", for sale in  the mall for " + historical_price(i);
+	gearString += ", value: " + valuation(i);
 	return gearString;
 }
 
@@ -501,8 +503,14 @@ void bestGear(string slotString, slot s) {
 	for j from 0 to Count(gear[slotString])-1 by 1 {			
 		if (boolean_modifier(gear[slotString][j],"Single Equip") && equipped_amount(gear[slotString][j]) > 0)
 			continue;
-		
-		if (canEquip(gear[slotString][j]) && gearup(s, gear[slotString][j])) {
+		//try to handle Barely Dressed mini
+		if (leastGear && valuation(gear[slotString][j]) < nakedWeight)
+		{
+			print_html("<b>Best Available " + s + ":</b> " + "None");
+			break;			
+		}
+		//this simultaneously checks if a piece can be equipped and tries to do so
+		if (canEquip(gear[slotString][j]) && gearup(s, gear[slotString][j])) {	
 			print_html("<b>Best Available " + s + ":</b> " + gearString(gear[slotString][j]));
 			print_html(string_modifier(gear[slotString][j],"Modifiers"));
 			break;		
@@ -631,6 +639,10 @@ void main() {
 		lightestLoad = true;
 		print_html("<li>Lightest Load</li>");
 	}		
+	if (index_of(page, "Barely Dressed") != -1) {
+		leastGear = true;
+		print_html("<li>Barely Dressed</li>");
+	}	
 	if (index_of(page, "Fashion Show") != -1) {
 		lightestLoad = true;
 		powerWeight =  -powerWeight;
