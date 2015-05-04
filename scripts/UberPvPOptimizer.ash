@@ -8,10 +8,10 @@ import <zlib.ash>;
 //Declare all the variables
 boolean showAllItems;
 boolean buyGear;
-int maxPrice;
+int maxBuyPrice;
 int topItems;
-boolean displayUnownedBling;
-int bling;
+boolean limitExpensiveDisplay;
+int defineExpensive;
 
 float letterMomentWeight;
 float nextLetterWeight;
@@ -74,7 +74,7 @@ void loadPvPProperties()
 		pvpGear["buyGear"] = false.to_float();				// Will auto-buy from mall if below threshold price and better than what you have
 		pvpGear["maxBuyPrice"] = 1000;						// Max price that will be considered to auto buy gear if you don't have it
 		pvpGear["topItems"] = 10;							// Number of items to display in the output lists
-		pvpGear["limitExpensiveDisplay"] = false.to_float();// Set to false to prevent the item outputs from showing items worth [bling] or more
+		pvpGear["limitExpensiveDisplay"] = false.to_float();// Set to false to prevent the item outputs from showing items worth [defineExpensive] or more
 		pvpGear["defineExpensive"] = 10000000;				// define amount for value limiter to show 10,000,000 default
 //Item Weights
 		pvpGear["letterMomentWeight"] = 6.0;				// Example: An "S" is worth 3 letters in laconic/verbosity
@@ -105,10 +105,10 @@ void loadPvPProperties()
 	
 	showAllItems = pvpGear["showAllItems"].to_boolean();			// When false, only shows items you own or within mall budget
 	buyGear = pvpGear["buyGear"].to_boolean();					// Will auto-buy from mall if below threshold price and better than what you have
-	maxPrice = pvpGear["maxBuyPrice"].to_int();					// Max price that will be considered to auto buy gear if you don't have it
+	maxBuyPrice = pvpGear["maxBuyPrice"].to_int();					// Max price that will be considered to auto buy gear if you don't have it
 	topItems = pvpGear["topItems"].to_int();						// Number of items to display in the output lists
-	displayUnownedBling = pvpGear["limitExpensiveDisplay"].to_boolean();	// Set to false to prevent the item outputs from showing items worth [bling] or more
-	bling = pvpGear["defineExpensive"].to_int();					// define amount for value limiter to show 10,000,000 default
+	limitExpensiveDisplay = pvpGear["limitExpensiveDisplay"].to_boolean();	// Set to false to prevent the item outputs from showing items worth [defineExpensive] or more
+	defineExpensive = pvpGear["defineExpensive"].to_int();					// define amount for value limiter to show 10,000,000 default
 
 	letterMomentWeight = pvpGear["letterMomentWeight"];			// Example: An "S" is worth 3 letters in laconic/verbosity
 	nextLetterWeight = pvpGear["nextLetterWeight"];			// Example: allow a future letter to be a tie-breaker
@@ -165,7 +165,7 @@ int nameLength(item i) {
 }
 // Check if you have an item, or it is in the mall historically for a price within the budget
 boolean canAcquire(item i) {		//source:Zekaonar
-	return ((can_interact() && buyGear && maxPrice >= historical_price(i) && historical_price(i) != 0) 
+	return ((can_interact() && buyGear && maxBuyPrice >= historical_price(i) && historical_price(i) != 0) 
 		|| available_amount(i)-equipped_amount(i) > 0);
 }
 
@@ -386,8 +386,8 @@ boolean gearup(slot s, item i) {
 		return false;
 	//print_html(i + " " + available_amount(i) + " " + equipped_amount(i));	
 	if ((available_amount(i)-equipped_amount(i)) <= 0 && can_interact() 
-			&& buyGear && maxPrice >= historical_price(i) && historical_price(i) != 0)
-		buy(1, i, maxPrice);
+			&& buyGear && maxBuyPrice >= historical_price(i) && historical_price(i) != 0)
+		buy(1, i, maxBuyPrice);
 		
 	if (available_amount(i)-equipped_amount(i) > 0) {
 	    if(!(get_inventory() contains i)) {
@@ -710,7 +710,7 @@ void main() {
 
 		sort gear[to_string(i)] by -valuation(value);
 
-		if(displayUnownedBling == true)
+		if(limitExpensiveDisplay == true)
 		{
 			for j from 0 to (topItems - 1) by 1 
 				print_html((j+1) + ".) " + gearString(gear[to_string(i)][j]) );
@@ -722,7 +722,7 @@ void main() {
 			int dumbCounterToo = 0;
 			while(dumbCounter <= (topItems-1))
 			{
-				if(historical_price(gear[to_string(i)][dumbCounterToo])<= bling)
+				if(historical_price(gear[to_string(i)][dumbCounterToo])<= defineExpensive)
 				{
 					print_html((dumbCounter+1) + ".) " + gearString(gear[to_string(i)][dumbCounterToo]) );
 					dumbCounterToo = dumbCounterToo + 1;
@@ -773,7 +773,7 @@ void main() {
 	}
 	bestGear("weapon", $slot[weapon]);
 	
-	if (available_amount(primaryWeapon)-equipped_amount(primaryWeapon) > 1 || (historical_price(primaryWeapon) < maxPrice && historical_price(primaryWeapon) > 0))
+	if (available_amount(primaryWeapon)-equipped_amount(primaryWeapon) > 1 || (historical_price(primaryWeapon) < maxBuyPrice && historical_price(primaryWeapon) > 0))
 		secondaryWeapon = primaryWeapon;
 	else {
 		for j from k+1 to Count(gear["weapon"])-1 by 1 {
