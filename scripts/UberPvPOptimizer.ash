@@ -562,6 +562,11 @@ void main() {
 		peaceonearth = true;
 		combatWeight = -combatWeight;
 		print_html("<li>Sooooper Sneaky</li>");
+	}
+	if (index_of(page, "Smellin' Like a Stinkin' Rose") != -1) {
+		peaceonearth = true;
+		combatWeight = -combatWeight;
+		print_html("<li>Smellin' Like a Stinkin' Rose</li>");
 	}	
 	if (index_of(page, "The Egg Hunt") != -1) {
 		egghunt = true;
@@ -575,9 +580,9 @@ void main() {
 		weaponDamage = true;
 		print_html("<li>Maul Power</li>");
 	}	
-	if (index_of(page, "Moarrr Booze!") != -1) {
+	if (index_of(page, "Moarrrrrr Booze!") != -1) {
 		moarbooze = true;
-		print_html("<li>Moarrr Booze!</li>");
+		print_html("<li>Moarrrrrr Booze!</li>");
 	}
 	if (index_of(page, "Holiday Spirit(s)!") != -1) {
 		moarbooze = true;
