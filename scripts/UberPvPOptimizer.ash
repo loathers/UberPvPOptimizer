@@ -553,6 +553,10 @@ void main() {
 		showingInitiative = true;
 		print_html("<li>Showing Initiative</li>");
 	}	
+	if (index_of(page, "Early Shopper") != -1) {
+		showingInitiative = true;
+		print_html("<li>Showing Initiative</li>");
+	}	
 	if (index_of(page, "Peace on Earth") != -1) {
 		peaceonearth = true;
 		combatWeight = -combatWeight;
