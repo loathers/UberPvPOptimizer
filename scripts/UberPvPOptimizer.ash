@@ -555,7 +555,7 @@ void main() {
 	}	
 	if (index_of(page, "Early Shopper") != -1) {
 		showingInitiative = true;
-		print_html("<li>Showing Initiative</li>");
+		print_html("<li>Early Shopper</li>");
 	}	
 	if (index_of(page, "Peace on Earth") != -1) {
 		peaceonearth = true;
