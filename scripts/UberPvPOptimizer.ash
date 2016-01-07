@@ -549,6 +549,14 @@ void main() {
 		    print_html("<li>Laconic Dresser</li>");
 		}
 	}
+	if (index_of(page, "Outfit Compression") != -1) {
+		if (verbosity) {
+		    verbosity = false;  // Ignore them.
+		} else {
+		    laconic = true;
+		    print_html("<li>Outfit Compression</li>");
+		}
+	}
 	if (index_of(page, "Showing Initiative") != -1) {
 		showingInitiative = true;
 		print_html("<li>Showing Initiative</li>");
@@ -575,6 +583,10 @@ void main() {
 	if (index_of(page, "The Egg Hunt") != -1) {
 		egghunt = true;
 		print_html("<li>The Egg Hunt</li>");
+		
+	if (index_of(page, "The Optimal Stat") != -1) {
+		egghunt = true;
+		print_html("<li>The Optimal Stat</li>");
 	}
 	if (index_of(page, "Meat Lover") != -1) {
 		meatlover = true;
@@ -650,6 +662,10 @@ void main() {
 		lightestLoad = true;
 		print_html("<li>Lightest Load</li>");
 	}		
+	if (index_of(page, "Optimal Dresser") != -1) {
+		lightestLoad = true;
+		print_html("<li>Optimal Dresser</li>");
+	}	
 	if (index_of(page, "Barely Dressed") != -1) {
 		leastGear = true;
 		print_html("<li>Barely Dressed</li>");
