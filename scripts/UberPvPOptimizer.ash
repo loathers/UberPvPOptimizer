@@ -143,7 +143,9 @@ int letterCount(item gear, string letter)
 	output = replace_all(htmltag,"");
 	int lettersCounted=0;
 	for i from 0 to length(output)-1 {
-		if (char_at(output,i)==letter) lettersCounted+=1;  
+		for i2 from 0 to length(letter)-1{
+			if (char_at(output,i)==char_at(letter,i2) lettersCounted+=1;  
+		}
 	}
 	return lettersCounted;
 }
@@ -682,6 +684,14 @@ void main() {
 		letterMomentWeight = -letterMomentWeight;
 		nextLetterWeight = 0;
 		print_html("<li>Spirit of Noel</li>");
+	}
+	if (index_of(page, "DEFACE") != -1) {
+		letterCheck = true;	
+		currentLetter = "ABCDEF0123456789";
+		nextLetter = "ABCDEF0123456789";
+		nextLetterWeight = 0;
+		letterMomentWeight = letterMomentWeight/10
+		print_html("<li>DEFACE</li>");
 	}
 	if (index_of(page, "Letter of the Moment") != -1) {
 		letterCheck = true;	
