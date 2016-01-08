@@ -26,6 +26,7 @@ float damageWeight;
 float negativeClassWeight;
 float weaponDmgWeight;
 float nakedWeight;
+float hexLetterWeight;
 
 // Booleans for each pvp mini
 boolean laconic = false;
@@ -50,6 +51,7 @@ boolean sleazeDamage = false;
 boolean stenchDamage = false;
 boolean spookyDamage = false;
 boolean leastGear = false;
+boolean deface = false;
 
 //other variables
 string currentLetter;
@@ -78,6 +80,7 @@ void loadPvPProperties()
 		pvpGear["defineExpensive"] = 10000000;				// define amount for value limiter to show 10,000,000 default
 //Item Weights
 		pvpGear["letterMomentWeight"] = 6.0;				// Example: An "S" is worth 3 letters in laconic/verbosity
+		pvpGear["hexLetterWeight"] = 4.0;					// Example: An "E" is worth 2 letters in laconic/verbosity
 		pvpGear["nextLetterWeight"] = 0.1;					// Example: allow a future letter to be a tie-breaker
 		pvpGear["itemDropWeight"] = (4.0/5.0);				// 4 per 5% drop Example: +8% items is worth 10 letters in laconic/verbosity
 		pvpGear["meatDropWeight"] = (3.0/5.0);				// 3 per 5% drop Example: +25% meat is worth 15 letters in laconic/verbosity
@@ -111,6 +114,7 @@ void loadPvPProperties()
 	defineExpensive = pvpGear["defineExpensive"].to_int();					// define amount for value limiter to show 10,000,000 default
 
 	letterMomentWeight = pvpGear["letterMomentWeight"];			// Example: An "S" is worth 3 letters in laconic/verbosity
+	hexLetterWeight = pvpGear["hexLetterWeight"];
 	nextLetterWeight = pvpGear["nextLetterWeight"];			// Example: allow a future letter to be a tie-breaker
 	itemDropWeight = pvpGear["itemDropWeight"];		// 4 per 5% drop Example: +8% items is worth 10 letters in laconic/verbosity
 	meatDropWeight = pvpGear["meatDropWeight"];		// 3 per 5% drop Example: +25% meat is worth 15 letters in laconic/verbosity
@@ -143,12 +147,29 @@ int letterCount(item gear, string letter)
 	output = replace_all(htmltag,"");
 	int lettersCounted=0;
 	for i from 0 to length(output)-1 {
-		for i2 from 0 to length(letter)-1{
-			if (char_at(output,i)==char_at(letter,i2) lettersCounted+=1;  
-		}
+		if (char_at(output,i)==letter) lettersCounted+=1;  
 	}
 	return lettersCounted;
 }
+// DEFACE count
+int hexCount(item gear){
+	if (gear == $item[none])
+		return 0;
+	/* Right now, greycat says that html entities count, so we don't need this
+	matcher entity = create_matcher("&[^ ;]+;", gear);
+	string output = replace_all(entity,"");
+	matcher htmltag = create_matcher("\<[^\>]*\>",output);
+	output = replace_all(htmltag,"");
+	int lettersCounted=0;
+	*/
+	int lettersCounted = 0;
+	string output = gear.to_string();
+	for i from 0 to length(output)-1{
+		if ($strings[a,b,c,d,e,f,0,1,2,3,4,5,6,7,8,9] contains char_at(output, i)) lettersCounted += 1;
+	}
+	return lettersCounted;
+}
+
 //Improved version of length() that deals with HTML entities, tags and counts them like pvp info does  source:Zekaonar
 int nameLength(item i) {
 	if (i == $item[none] && laconic)
@@ -227,7 +248,11 @@ float valuation(item i) {
 		value += letterCount(i,currentLetter)*letterMomentWeight;
 		value += letterCount(i,nextLetter)*nextLetterWeight;
 	}
-		
+	
+	if (deface) {
+		value += hexCount(i)*hexLetterWeight;
+	}
+
 	if (egghunt)
 		value += numeric_modifier2(i,"Item Drop")*itemDropWeight;
 		
@@ -585,7 +610,7 @@ void main() {
 	if (index_of(page, "The Egg Hunt") != -1) {
 		egghunt = true;
 		print_html("<li>The Egg Hunt</li>");
-		
+	}
 	if (index_of(page, "The Optimal Stat") != -1) {
 		egghunt = true;
 		print_html("<li>The Optimal Stat</li>");
@@ -667,7 +692,7 @@ void main() {
 	if (index_of(page, "Optimal Dresser") != -1) {
 		lightestLoad = true;
 		print_html("<li>Optimal Dresser</li>");
-	}	
+	}		
 	if (index_of(page, "Barely Dressed") != -1) {
 		leastGear = true;
 		print_html("<li>Barely Dressed</li>");
@@ -685,14 +710,6 @@ void main() {
 		nextLetterWeight = 0;
 		print_html("<li>Spirit of Noel</li>");
 	}
-	if (index_of(page, "DEFACE") != -1) {
-		letterCheck = true;	
-		currentLetter = "ABCDEF0123456789";
-		nextLetter = "ABCDEF0123456789";
-		nextLetterWeight = 0;
-		letterMomentWeight = letterMomentWeight/10
-		print_html("<li>DEFACE</li>");
-	}
 	if (index_of(page, "Letter of the Moment") != -1) {
 		letterCheck = true;	
 		int start = index_of(page, "Who has the most <b>");
@@ -704,6 +721,10 @@ void main() {
 		int end = index_of(page," seconds.)");
 		string secs = substring(page,start+8,end);		
 		print_html("<li>Letter of the Moment: " + currentLetter + ", next " + nextLetter + " </li>");
+	}
+	if (index_of(page, "DEFACE") != -1) {
+		deface = true;	
+		print_html("<li>DEFACE</li>");
 	}
 	print_html("</ul>");
 	
