@@ -27,6 +27,7 @@ float negativeClassWeight;
 float weaponDmgWeight;
 float nakedWeight;
 float hexLetterWeight;
+float numeralWeight;
 
 // Booleans for each pvp mini
 boolean laconic = false;
@@ -52,6 +53,7 @@ boolean stenchDamage = false;
 boolean spookyDamage = false;
 boolean leastGear = false;
 boolean deface = false;
+boolean nines = false;
 
 //other variables
 string currentLetter;
@@ -81,6 +83,7 @@ void loadPvPProperties()
 //Item Weights
 		pvpGear["letterMomentWeight"] = 6.0;				// Example: An "S" is worth 3 letters in laconic/verbosity
 		pvpGear["hexLetterWeight"] = 4.0;					// Example: An "E" is worth 2 letters in laconic/verbosity
+		pvpGear["numeralWeight" = 4.0;]
 		pvpGear["nextLetterWeight"] = 0.1;					// Example: allow a future letter to be a tie-breaker
 		pvpGear["itemDropWeight"] = (4.0/5.0);				// 4 per 5% drop Example: +8% items is worth 10 letters in laconic/verbosity
 		pvpGear["meatDropWeight"] = (3.0/5.0);				// 3 per 5% drop Example: +25% meat is worth 15 letters in laconic/verbosity
@@ -115,6 +118,7 @@ void loadPvPProperties()
 
 	letterMomentWeight = pvpGear["letterMomentWeight"];			// Example: An "S" is worth 3 letters in laconic/verbosity
 	hexLetterWeight = pvpGear["hexLetterWeight"];
+	numeralWeight = pvpGear["numeralWeight"];
 	nextLetterWeight = pvpGear["nextLetterWeight"];			// Example: allow a future letter to be a tie-breaker
 	itemDropWeight = pvpGear["itemDropWeight"];		// 4 per 5% drop Example: +8% items is worth 10 letters in laconic/verbosity
 	meatDropWeight = pvpGear["meatDropWeight"];		// 3 per 5% drop Example: +25% meat is worth 15 letters in laconic/verbosity
@@ -166,6 +170,17 @@ int hexCount(item gear){
 	string output = gear.to_string();
 	for i from 0 to length(output)-1{
 		if ($strings[a,b,c,d,e,f,0,1,2,3,4,5,6,7,8,9] contains char_at(output, i)) lettersCounted += 1;
+	}
+	return lettersCounted;
+}
+
+int numCount(item gear){
+	if (gear == $item[none])
+		return 0;
+	int lettersCounted = 0;
+	string output = gear.to_string();
+	for i from 0 to length(output)-1 {
+		if ($strings[0,1,2,3,4,5,6,7,8,9] contains char_at(output, i)) lettersCounted += 1;
 	}
 	return lettersCounted;
 }
@@ -251,6 +266,10 @@ float valuation(item i) {
 	
 	if (deface) {
 		value += hexCount(i)*hexLetterWeight;
+	}
+
+	if (nines) {
+		value += numCount(i)*numeralWeight;
 	}
 
 	if (egghunt)
@@ -667,7 +686,7 @@ void main() {
 		print_html("<li>TBD</li>");
 	}	
 ******/
-	if (index_of(page, "Ready to Melt") != -1) {
+	if (index_of(page, "Ready to Melt") != -1 || index_of(page, "Farenheit 451") != -1) {
 		hotDamage = true;
 		print_html("<li>Ready to Melt</li>");
 	}	
@@ -725,6 +744,10 @@ void main() {
 	if (index_of(page, "DEFACE") != -1) {
 		deface = true;	
 		print_html("<li>DEFACE</li>");
+	}
+	if (index_of(page, "Dressed to the 9s") != -1) {
+		nines = true;
+		print_html("<li>Dressed to the 9s</li>");
 	}
 	print_html("</ul>");
 	
