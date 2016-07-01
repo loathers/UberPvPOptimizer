@@ -686,9 +686,13 @@ void main() {
 		print_html("<li>TBD</li>");
 	}	
 ******/
-	if (index_of(page, "Ready to Melt") != -1 || index_of(page, "Farenheit 451") != -1) {
+	if (index_of(page, "Ready to Melt") != -1) {
 		hotDamage = true;
 		print_html("<li>Ready to Melt</li>");
+	}	
+	if (index_of(page, "Fahrenheit 451") != -1) {
+		hotDamage = true;
+		print_html("<li>Fahrenheit 451</li>");
 	}	
 	if (index_of(page, "Innuendo Master") != -1) {
 		sleazeDamage = true;
