@@ -83,7 +83,7 @@ void loadPvPProperties()
 //Item Weights
 		pvpGear["letterMomentWeight"] = 6.0;				// Example: An "S" is worth 3 letters in laconic/verbosity
 		pvpGear["hexLetterWeight"] = 4.0;					// Example: An "E" is worth 2 letters in laconic/verbosity
-		pvpGear["numeralWeight" = 4.0;]
+		pvpGear["numeralWeight"] = 4.0;
 		pvpGear["nextLetterWeight"] = 0.1;					// Example: allow a future letter to be a tie-breaker
 		pvpGear["itemDropWeight"] = (4.0/5.0);				// 4 per 5% drop Example: +8% items is worth 10 letters in laconic/verbosity
 		pvpGear["meatDropWeight"] = (3.0/5.0);				// 3 per 5% drop Example: +25% meat is worth 15 letters in laconic/verbosity
