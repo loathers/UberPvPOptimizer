@@ -3,6 +3,7 @@
 *	Rewritten by UberFerret		
 *	Maintained by digitrev	*/
 script "UberPvPOptimizer.ash";
+notify digitrev;
 import <zlib.ash>;
 
 //Declare all the variables
