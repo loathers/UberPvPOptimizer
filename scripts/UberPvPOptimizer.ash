@@ -405,22 +405,27 @@ float valuation(item i, item i2) {
 
 	if (coldDamage) {
 		value += numeric_modifier2(i,"Cold Damage")*damageWeight+numeric_modifier2(i,"Cold Spell Damage")*damageWeight;
+		value += numeric_modifier2(i2,"Cold Damage")*damageWeight+numeric_modifier2(i2,"Cold Spell Damage")*damageWeight;
 	}
 	
 	if (hotDamage) {
 		value += numeric_modifier2(i,"Hot Damage")*damageWeight+numeric_modifier2(i,"Hot Spell Damage")*damageWeight;
+		value += numeric_modifier2(i2,"Hot Damage")*damageWeight+numeric_modifier2(i2,"Hot Spell Damage")*damageWeight;
 	}
 	
 	if (sleazeDamage) {
 		value += numeric_modifier2(i,"Sleaze Damage")*damageWeight+numeric_modifier2(i,"Sleaze Spell Damage")*damageWeight;
+		value += numeric_modifier2(i2,"Sleaze Damage")*damageWeight+numeric_modifier2(i2,"Sleaze Spell Damage")*damageWeight;
 	}
 	
 	if (stenchDamage) {
 		value += numeric_modifier2(i,"Stench Damage")*damageWeight+numeric_modifier2(i,"Stench Spell Damage")*damageWeight;
+		value += numeric_modifier2(i2,"Stench Damage")*damageWeight+numeric_modifier2(i2,"Stench Spell Damage")*damageWeight;
 	}
 	
 	if (spookyDamage) {
 		value += numeric_modifier2(i,"Spooky Damage")*damageWeight+numeric_modifier2(i,"Spooky Spell Damage")*damageWeight;
+		value += numeric_modifier2(i2,"Spooky Damage")*damageWeight+numeric_modifier2(i2,"Spooky Spell Damage")*damageWeight;
 	}
 
 
