@@ -70,11 +70,11 @@ item [string] [int] gear;
 void loadPvPProperties()
 {
 //Set properties
-	setvar("PvP_showAllItems", true.to_float());			// When 0.0, only shows items you own or within mall budget
-	setvar("PvP_buyGear", false.to_float());				// Will auto-buy from mall if below threshold price and better than what you have
+	setvar("PvP_showAllItems", true);			// When 0.0, only shows items you own or within mall budget
+	setvar("PvP_buyGear", false);				// Will auto-buy from mall if below threshold price and better than what you have
 	setvar("PvP_maxBuyPrice", 1000);						// Max price that will be considered to auto buy gear if you don't have it
 	setvar("PvP_topItems", 10);							// Number of items to display in the output lists
-	setvar("PvP_limitExpensiveDisplay", false.to_float());// Set to false to prevent the item outputs from showing items worth [defineExpensive] or more
+	setvar("PvP_limitExpensiveDisplay", false);// Set to false to prevent the item outputs from showing items worth [defineExpensive] or more
 	setvar("PvP_defineExpensive", 10000000);				// define amount for value limiter to show 10,000,000 default
 //Item Weights
 	setvar("PvP_letterMomentWeight", 6.0);				// Example: An "S" is worth 3 letters in laconic/verbosity
