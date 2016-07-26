@@ -70,7 +70,6 @@ item [string] [int] gear;
 void loadPvPProperties()
 {
 //Set properties
-	setvar("PvP_Exists", 1.1);							// Store a map value to say it exists, allows for checking later.
 	setvar("PvP_showAllItems", true.to_float());			// When 0.0, only shows items you own or within mall budget
 	setvar("PvP_buyGear", false.to_float());				// Will auto-buy from mall if below threshold price and better than what you have
 	setvar("PvP_maxBuyPrice", 1000);						// Max price that will be considered to auto buy gear if you don't have it
