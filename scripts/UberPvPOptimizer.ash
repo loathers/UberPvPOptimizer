@@ -71,10 +71,10 @@ void loadPvPProperties()
 {
 	float [string] pvpGear;
 	file_to_map("pvpGearProperties.txt", pvpGear);
-	if (pvpGear["Exists"] != 1.0)
+	if (pvpGear["Exists"] != 1.1)
 	{
 //Set properties
-		pvpGear["Exists"] = 1.0;							// Store a map value to say it exists, allows for checking later.
+		pvpGear["Exists"] = 1.1;							// Store a map value to say it exists, allows for checking later.
 		pvpGear["showAllItems"] = true.to_float();			// When 0.0, only shows items you own or within mall budget
 		pvpGear["buyGear"] = false.to_float();				// Will auto-buy from mall if below threshold price and better than what you have
 		pvpGear["maxBuyPrice"] = 1000;						// Max price that will be considered to auto buy gear if you don't have it
