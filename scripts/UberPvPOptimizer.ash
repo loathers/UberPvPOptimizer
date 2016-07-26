@@ -69,69 +69,55 @@ item [string] [int] gear;
 
 void loadPvPProperties()
 {
-	float [string] pvpGear;
-	file_to_map("pvpGearProperties.txt", pvpGear);
-	if (pvpGear["Exists"] != 1.1)
-	{
 //Set properties
-		pvpGear["Exists"] = 1.1;							// Store a map value to say it exists, allows for checking later.
-		pvpGear["showAllItems"] = true.to_float();			// When 0.0, only shows items you own or within mall budget
-		pvpGear["buyGear"] = false.to_float();				// Will auto-buy from mall if below threshold price and better than what you have
-		pvpGear["maxBuyPrice"] = 1000;						// Max price that will be considered to auto buy gear if you don't have it
-		pvpGear["topItems"] = 10;							// Number of items to display in the output lists
-		pvpGear["limitExpensiveDisplay"] = false.to_float();// Set to false to prevent the item outputs from showing items worth [defineExpensive] or more
-		pvpGear["defineExpensive"] = 10000000;				// define amount for value limiter to show 10,000,000 default
+	setvar("PvP_Exists", 1.1);							// Store a map value to say it exists, allows for checking later.
+	setvar("PvP_showAllItems", true.to_float());			// When 0.0, only shows items you own or within mall budget
+	setvar("PvP_buyGear", false.to_float());				// Will auto-buy from mall if below threshold price and better than what you have
+	setvar("PvP_maxBuyPrice", 1000);						// Max price that will be considered to auto buy gear if you don't have it
+	setvar("PvP_topItems", 10);							// Number of items to display in the output lists
+	setvar("PvP_limitExpensiveDisplay", false.to_float());// Set to false to prevent the item outputs from showing items worth [defineExpensive] or more
+	setvar("PvP_defineExpensive", 10000000);				// define amount for value limiter to show 10,000,000 default
 //Item Weights
-		pvpGear["letterMomentWeight"] = 6.0;				// Example: An "S" is worth 3 letters in laconic/verbosity
-		pvpGear["hexLetterWeight"] = 4.0;					// Example: An "E" is worth 2 letters in laconic/verbosity
-		pvpGear["numeralWeight"] = 4.0;
-		pvpGear["nextLetterWeight"] = 0.1;					// Example: allow a future letter to be a tie-breaker
-		pvpGear["itemDropWeight"] = (4.0/5.0);				// 4 per 5% drop Example: +8% items is worth 10 letters in laconic/verbosity
-		pvpGear["meatDropWeight"] = (3.0/5.0);				// 3 per 5% drop Example: +25% meat is worth 15 letters in laconic/verbosity
-		pvpGear["boozeDropWeight"] = (3.0/5.0);				// 3 per 5% drop Example: +20% booze is worth 12 letters in laconic/verbosity
-		pvpGear["initiativeWeight"] = (4.0/10.0);			// 4 per 10% initiative Example: +20% initiative is worth 8 letters in laconic/verbosity
-		pvpGear["combatWeight"] = (15.0/5.0);				// 4 per 10% combat Example: +20% combat is worth 8 letters in laconic/verbosity
-		pvpGear["resistanceWeight"] = 4.9;					// Example: +1 Resistance to all elements equals 6 letters of laconic/verbosity
-		pvpGear["powerWeight"] = (5.0/10.0);				// Example: 5 points for -10 points of power towards Lightest Load vs average(110) power in slot.  
-		pvpGear["damageWeight"] = 4.0/10.0;					// Example: 4 points for 10 points of damage.
-		pvpGear["negativeClassWeight"] = -5;				// Give a negative weight to items that are not for your class.
-		pvpGear["weaponDmgWeight"] = (0.5);					// messing with this
-		pvpGear["nakedWeight"] = (7.4);						//WORK IN PROGRESS
+	setvar("PvP_letterMomentWeight", 6.0);				// Example: An "S" is worth 3 letters in laconic/verbosity
+	setvar("PvP_hexLetterWeight", 4.0);					// Example: An "E" is worth 2 letters in laconic/verbosity
+	setvar("PvP_numeralWeight", 4.0);
+	setvar("PvP_nextLetterWeight", 0.1);					// Example: allow a future letter to be a tie-breaker
+	setvar("PvP_itemDropWeight", (4.0/5.0));				// 4 per 5% drop Example: +8% items is worth 10 letters in laconic/verbosity
+	setvar("PvP_meatDropWeight", (3.0/5.0));				// 3 per 5% drop Example: +25% meat is worth 15 letters in laconic/verbosity
+	setvar("PvP_boozeDropWeight", (3.0/5.0));				// 3 per 5% drop Example: +20% booze is worth 12 letters in laconic/verbosity
+	setvar("PvP_initiativeWeight", (4.0/10.0));			// 4 per 10% initiative Example: +20% initiative is worth 8 letters in laconic/verbosity
+	setvar("PvP_combatWeight", (15.0/5.0));				// 4 per 10% combat Example: +20% combat is worth 8 letters in laconic/verbosity
+	setvar("PvP_resistanceWeight", 4.9);					// Example: +1 Resistance to all elements equals 6 letters of laconic/verbosity
+	setvar("PvP_powerWeight", (5.0/10.0));				// Example: 5 points for -10 points of power towards Lightest Load vs average(110) power in slot.  
+	setvar("PvP_damageWeight", 4.0/10.0);					// Example: 4 points for 10 points of damage.
+	setvar("PvP_negativeClassWeight", -5);				// Give a negative weight to items that are not for your class.
+	setvar("PvP_weaponDmgWeight", (0.5));					// messing with this
+	setvar("PvP_nakedWeight", (7.4));						//WORK IN PROGRESS
 
-		if (map_to_file( pvpGear , "pvpGearProperties.txt" ))
-		   print_html( "Weight and properties saved." );
-		else
-		   print_html( "There was a problem saving your properties." );
-	}
-	else
-	{
-		print_html("Your custom weights and settings were loaded successfully.");
-	}
-	
 	/***Load settings ***/
 	
-	showAllItems = pvpGear["showAllItems"].to_boolean();			// When false, only shows items you own or within mall budget
-	buyGear = pvpGear["buyGear"].to_boolean();					// Will auto-buy from mall if below threshold price and better than what you have
-	maxBuyPrice = pvpGear["maxBuyPrice"].to_int();					// Max price that will be considered to auto buy gear if you don't have it
-	topItems = pvpGear["topItems"].to_int();						// Number of items to display in the output lists
-	limitExpensiveDisplay = pvpGear["limitExpensiveDisplay"].to_boolean();	// Set to false to prevent the item outputs from showing items worth [defineExpensive] or more
-	defineExpensive = pvpGear["defineExpensive"].to_int();					// define amount for value limiter to show 10,000,000 default
+	showAllItems = vars["PvP_showAllItems"].to_boolean();			// When false, only shows items you own or within mall budget
+	buyGear = vars["PvP_buyGear"].to_boolean();					// Will auto-buy from mall if below threshold price and better than what you have
+	maxBuyPrice = vars["PvP_maxBuyPrice"].to_int();					// Max price that will be considered to auto buy gear if you don't have it
+	topItems = vars["PvP_topItems"].to_int();						// Number of items to display in the output lists
+	limitExpensiveDisplay = vars["PvP_limitExpensiveDisplay"].to_boolean();	// Set to false to prevent the item outputs from showing items worth [defineExpensive] or more
+	defineExpensive = vars["PvP_defineExpensive"].to_int();					// define amount for value limiter to show 10,000,000 default
 
-	letterMomentWeight = pvpGear["letterMomentWeight"];			// Example: An "S" is worth 3 letters in laconic/verbosity
-	hexLetterWeight = pvpGear["hexLetterWeight"];
-	numeralWeight = pvpGear["numeralWeight"];
-	nextLetterWeight = pvpGear["nextLetterWeight"];			// Example: allow a future letter to be a tie-breaker
-	itemDropWeight = pvpGear["itemDropWeight"];		// 4 per 5% drop Example: +8% items is worth 10 letters in laconic/verbosity
-	meatDropWeight = pvpGear["meatDropWeight"];		// 3 per 5% drop Example: +25% meat is worth 15 letters in laconic/verbosity
-	boozeDropWeight = pvpGear["boozeDropWeight"];		// 3 per 5% drop Example: +20% booze is worth 12 letters in laconic/verbosity
-	initiativeWeight = pvpGear["initiativeWeight"];	// 4 per 10% initiative Example: +20% initiative is worth 8 letters in laconic/verbosity
-	combatWeight = pvpGear["combatWeight"];		// 4 per 10% combat Example: +20% combat is worth 8 letters in laconic/verbosity
-	resistanceWeight = pvpGear["resistanceWeight"];			// Example: +1 Resistance to all elements equals 6 letters of laconic/verbosity
-	powerWeight = pvpGear["powerWeight"];			// Example: 5 points for -10 points of power towards Lightest Load vs average(110) power in slot.  
-	damageWeight = pvpGear["damageWeight"];			// Example: 4 points for 10 points of damage.
-	negativeClassWeight = pvpGear["negativeClassWeight"];			// Off class items are given a 0, adjust as you see fit.
-	weaponDmgWeight = pvpGear["weaponDmgWeight"];
-	nakedWeight = pvpGear["nakedWeight"];	//WORK IN PROGRESS
+	letterMomentWeight = vars["PvP_letterMomentWeight"].to_float();			// Example: An "S" is worth 3 letters in laconic/verbosity
+	hexLetterWeight = vars["PvP_hexLetterWeight"].to_float();
+	numeralWeight = vars["PvP_numeralWeight"].to_float();
+	nextLetterWeight = vars["PvP_nextLetterWeight"].to_float();			// Example: allow a future letter to be a tie-breaker
+	itemDropWeight = vars["PvP_itemDropWeight"].to_float();		// 4 per 5% drop Example: +8% items is worth 10 letters in laconic/verbosity
+	meatDropWeight = vars["PvP_meatDropWeight"].to_float();		// 3 per 5% drop Example: +25% meat is worth 15 letters in laconic/verbosity
+	boozeDropWeight = vars["PvP_boozeDropWeight"].to_float();		// 3 per 5% drop Example: +20% booze is worth 12 letters in laconic/verbosity
+	initiativeWeight = vars["PvP_initiativeWeight"].to_float();	// 4 per 10% initiative Example: +20% initiative is worth 8 letters in laconic/verbosity
+	combatWeight = vars["PvP_combatWeight"].to_float();		// 4 per 10% combat Example: +20% combat is worth 8 letters in laconic/verbosity
+	resistanceWeight = vars["PvP_resistanceWeight"].to_float();			// Example: +1 Resistance to all elements equals 6 letters of laconic/verbosity
+	powerWeight = vars["PvP_powerWeight"].to_float();			// Example: 5 points for -10 points of power towards Lightest Load vs average(110) power in slot.  
+	damageWeight = vars["PvP_damageWeight"].to_float();			// Example: 4 points for 10 points of damage.
+	negativeClassWeight = vars["PvP_negativeClassWeight"].to_float();			// Off class items are given a 0, adjust as you see fit.
+	weaponDmgWeight = vars["PvP_weaponDmgWeight"].to_float();
+	nakedWeight = vars["PvP_nakedWeight"].to_float();	//WORK IN PROGRESS
 	
 }
 
