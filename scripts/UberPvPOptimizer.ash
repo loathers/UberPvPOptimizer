@@ -731,7 +731,7 @@ void main() {
 	if (index_of(page, "Spirit Day") != -1) {
 		letterCheck = true;	
 		int start = index_of(page, "It's one of those crazy school spirit days where everyone wears clothes with the letter <b>");
-		currentLetter = substring(page,start+20,start+21);
+		currentLetter = substring(page,start+91,start+92);
 //		currentLetter="X";			//hacky way to force optimizing a letter
 		start = index_of(page, "Changing to <b>");
 		nextLetter = substring(page,start+15,start+16);
