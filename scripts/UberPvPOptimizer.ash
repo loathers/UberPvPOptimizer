@@ -685,6 +685,10 @@ void main() {
 		hotDamage = true;
 		print_html("<li>Fahrenheit 451</li>");
 	}	
+	if (index_of(page, "Hot for Teacher") != -1) {
+		hotDamage = true;
+		print_html("<li>Hot for Teacher</li>");
+	}	
 	if (index_of(page, "Innuendo Master") != -1) {
 		sleazeDamage = true;
 		print_html("<li>Innuendo Master</li>");
@@ -723,6 +727,18 @@ void main() {
 		letterMomentWeight = -letterMomentWeight;
 		nextLetterWeight = 0;
 		print_html("<li>Spirit of Noel</li>");
+	}
+	if (index_of(page, "Spirit Day") != -1) {
+		letterCheck = true;	
+		int start = index_of(page, "It's one of those crazy school spirit days where everyone wears clothes with the letter <b>");
+		currentLetter = substring(page,start+20,start+21);
+//		currentLetter="X";			//hacky way to force optimizing a letter
+		start = index_of(page, "Changing to <b>");
+		nextLetter = substring(page,start+15,start+16);
+		start = index_of(page, "</b> in ");
+		int end = index_of(page," seconds.)");
+		string secs = substring(page,start+8,end);		
+		print_html("<li>Spirit Day: " + currentLetter + ", next " + nextLetter + " </li>");
 	}
 	if (index_of(page, "Letter of the Moment") != -1) {
 		letterCheck = true;	
