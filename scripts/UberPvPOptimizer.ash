@@ -865,7 +865,7 @@ void main() {
 		secondaryWeapon = primaryWeapon;
 	else {
 		for j from k+1 to Count(gear["weapon"])-1 by 1 {
-			if(canAcquire(gear["weapon"][j]) && weapon_type(gear["weapon"][j]) == weapon_type(primaryWeapon)) {
+			if(canAcquire(gear["weapon"][j]) && weapon_type(gear["weapon"][j]) == weapon_type(primaryWeapon) && !isChefStaff(primaryWeapon)) {
 				secondaryWeapon = gear["weapon"][j];
 				break;			
 			}
@@ -880,7 +880,7 @@ void main() {
 	}
 
 	if ((!dualWield 
-		|| valuation(primaryWeapon,bestOffhand) < valuation(primaryWeapon,secondaryWeapon))) {
+		|| valuation(primaryWeapon,bestOffhand) > valuation(primaryWeapon,secondaryWeapon))) {
 		gearup($slot[off-hand],bestOffhand);
 		print_html("<b>Best Available off-hand:</b> " + gearString(bestOffhand));
 		print_html(string_modifier(bestOffhand,"Modifiers"));				
