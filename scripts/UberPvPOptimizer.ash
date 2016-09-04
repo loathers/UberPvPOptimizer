@@ -137,7 +137,7 @@ int letterCount(item gear, string letter)
 	output = replace_all(htmltag,"");
 	int lettersCounted=0;
 	for i from 0 to length(output)-1 {
-		if (char_at(output,i)==letter) lettersCounted+=1;  
+		if (char_at(output,i).to_lower_case()==letter.to_lower_case()) lettersCounted+=1;  
 	}
 	return lettersCounted;
 }
@@ -195,11 +195,7 @@ boolean canAcquire(item i) {		//source:Zekaonar
 
 //Chefstaves require a skill to equip
 boolean isChefStaff(item i) {
-	foreach staff in $items[Staff of the Headmaster's Victuals, Staff of the November Jack-O-Lantern, Spooky Putty snake, Staff of Queso Escusado, Staff of the Lunch Lady, Staff of the Woodfire, Staff of the Cozy Fish, Staff of Simmering Hatred, The Necbromancer's Wizard Staff] {
-		if (i == staff) 
-			return true;		
-	}
-	return false;
+	return item_type(i) == "chefstaff";
 }
 //Make sure the item can be equipped
 boolean canEquip(item i) {
