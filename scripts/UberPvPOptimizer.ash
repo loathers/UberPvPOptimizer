@@ -861,7 +861,7 @@ void main() {
 	}
 	bestGear("weapon", $slot[weapon]);
 	
-	if (available_amount(primaryWeapon)-equipped_amount(primaryWeapon) > 1 || (historical_price(primaryWeapon) < maxBuyPrice && historical_price(primaryWeapon) > 0))
+	if (available_amount(primaryWeapon)-equipped_amount(primaryWeapon) > 1 || (historical_price(primaryWeapon) < maxBuyPrice && historical_price(primaryWeapon) > 0) && !isChefStaff(primaryWeapon))
 		secondaryWeapon = primaryWeapon;
 	else {
 		for j from k+1 to Count(gear["weapon"])-1 by 1 {
