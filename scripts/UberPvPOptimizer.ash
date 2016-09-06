@@ -65,6 +65,7 @@ item secondaryWeapon;		//offhand
 item tertiaryWeapon;		//hand
 item bestOffhand;
 item [string] [int] gear;
+familiar[int] fams;
 
 
 void loadPvPProperties()
@@ -533,19 +534,20 @@ string gearString(item i) {
 
 /** loop through gear to find the best one you can get and equip */
 void bestGear(string slotString, slot s) {		
-	for j from 0 to Count(gear[slotString])-1 by 1 {			
-		if (boolean_modifier(gear[slotString][j],"Single Equip") && equipped_amount(gear[slotString][j]) > 0)
+	for j from 0 to Count(gear[slotString])-1 by 1 {
+		item g = gear[slotString][j];
+		if (boolean_modifier(g,"Single Equip") && equipped_amount(g) > 0)
 			continue;
 		//try to handle Barely Dressed mini
-		if (leastGear && valuation(gear[slotString][j]) < nakedWeight)
+		if (leastGear && valuation(g) < nakedWeight)
 		{
 			print_html("<b>Best Available " + s + ":</b> " + "None, value: " + nakedWeight);
 			break;			
 		}
 		//this simultaneously checks if a piece can be equipped and tries to do so
-		if (canEquip(gear[slotString][j]) && gearup(s, gear[slotString][j])) {	
-			print_html("<b>Best Available " + s + ":</b> " + gearString(gear[slotString][j]));
-			print_html(string_modifier(gear[slotString][j],"Modifiers"));
+		if ((canEquip(g) && gearup(s, g)) || (s == $slot[familiar] && fams[j].use_familiar() && canEquip(g) && gearup(s, g))) {	
+			print_html("<b>Best Available " + s + ":</b> " + gearString(g));
+			print_html(string_modifier(g,"Modifiers"));
 			break;		
 		}
 	}
@@ -773,8 +775,8 @@ void main() {
 		int price = npc_price(i);
 		if (price == 0) 
 			price = historical_price(i);
-		if((s != $slot[none] && showAllItems && can_equip(i)) 
-			|| (s != $slot[none] && can_equip(i) && canAcquire(i))) {
+		if((!($slots[none, familiar] contains s.to_slot()) && can_equip(i)) &&  
+			(showAllItems || canAcquire(i))) {
 			
 			string modstring = string_modifier(i,"Modifiers");
 			// filter situational items that don't apply to fighting in arena
@@ -791,7 +793,25 @@ void main() {
 		}
 	}
 
+	familiar CurrentFam = my_familiar();
+	foreach f in $familiars[] {
+		string s = $slot[familiar].to_string();
+		if (f.have_familiar() && f.use_familiar()){
+			foreach it in $items[] {
+				int price = npc_price(it);
+				if (price == 0) 
+					price = historical_price(it);
+				if ((it.to_slot().to_string() == s && can_equip(it)) && (showAllItems || canAcquire(it))) {
+					gear[s][count(gear[s])] = it;
+					fams[count(fams)] = f;
+				}
+			}
+		}
+	}
+	CurrentFam.use_familiar();
+
 /*** Top Gear display lists ***/
+	sort fams by -valuation(gear["familiar"][index]);
 	foreach i in $slots[hat, back, shirt, weapon, off-hand, pants, acc1, familiar] {
 		int itemCount = count(gear[to_string(i)]); 
 		print_html("<b>Slot <i>" + i + "</i> items considered: " + itemCount + " printing top items in slot:</b>");
@@ -837,9 +857,7 @@ void main() {
 	
 /*** Display best in slot  ***/	
 	bestGear("hat", $slot[hat]);
-//Snipped Crown of Thrones
 	bestGear("back", $slot[back]);
-//Snipped Buddy Bjorn
 	bestGear("shirt", $slot[shirt]);
 		
 	// determine the best possible weapon combos
