@@ -759,7 +759,7 @@ void main() {
 	print_html("</ul>");
 	
 /*** unequip all slots ***/
-	foreach i in $slots[hat, back, shirt, weapon, off-hand, pants, acc1, acc2, acc3] 
+	foreach i in $slots[hat, back, shirt, weapon, off-hand, pants, acc1, acc2, acc3, familiar] 
 		equip(i,$item[none]);
 	print_html("<br/>");	
 /*******
@@ -792,7 +792,7 @@ void main() {
 	}
 
 /*** Top Gear display lists ***/
-	foreach i in $slots[hat, back, shirt, weapon, off-hand, pants, acc1] {
+	foreach i in $slots[hat, back, shirt, weapon, off-hand, pants, acc1, familiar] {
 		int itemCount = count(gear[to_string(i)]); 
 		print_html("<b>Slot <i>" + i + "</i> items considered: " + itemCount + " printing top items in slot:</b>");
 
@@ -894,10 +894,10 @@ void main() {
 	bestGear("acc1", $slot[acc1]);
 	bestGear("acc1", $slot[acc2]);
 	bestGear("acc1", $slot[acc3]);
+	bestGear("familiar", $slot[familiar]);
 	
 /*******
-	Snipped familiars
-********/	
+	Snipped familiars********/	
 
 	page = visit_url("peevpee.php?place=rules");
 	page = substring(page,index_of(page, "</head>")+7,length(page));	
