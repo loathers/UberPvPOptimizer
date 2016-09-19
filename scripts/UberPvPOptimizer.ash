@@ -545,7 +545,7 @@ void bestGear(string slotString, slot s) {
 			break;			
 		}
 		//this simultaneously checks if a piece can be equipped and tries to do so
-		if ((canEquip(g) && gearup(s, g)) || (s == $slot[familiar] && fams[j].use_familiar() && canEquip(g) && gearup(s, g))) {	
+		if ((canEquip(g) && gearup(s, g)) || (s == $slot[familiar] && canAcquire(g) && fams[j].use_familiar() && canEquip(g) && gearup(s, g))) {	
 			print_html("<b>Best Available " + s + ":</b> " + gearString(g));
 			print_html(string_modifier(g,"Modifiers"));
 			break;		
@@ -793,26 +793,26 @@ void main() {
 		}
 	}
 
-	familiar CurrentFam = my_familiar();
-	foreach f in $familiars[] {
-		string s = $slot[familiar].to_string();
-		if (f.have_familiar() && f.use_familiar()){
-			foreach it in $items[] {
-				int price = npc_price(it);
-				if (price == 0) 
-					price = historical_price(it);
-				if ((it.to_slot().to_string() == s && can_equip(it)) && (showAllItems || canAcquire(it))) {
-					gear[s][count(gear[s])] = it;
-					fams[count(fams)] = f;
-				}
-			}
+	familiar [item] famItems;
+	foreach f in $familiars[]
+		if(f.have_familiar())
+			famItems[familiar_equipment(f)] = f;
+	string s = $slot[familiar].to_string();
+	foreach it in $items[] {
+		int price = npc_price(it);
+		if (price == 0)
+			price = historical_price(it);
+		if (famItems contains it || (it.to_slot().to_string() == s && string_modifier(it, "Modifiers").contains_text("Generic"))&& (showAllItems || canAcquire(it))) {
+			gear[s][count(gear[s])] = it;
+			if(famItems contains it)
+				fams[count(fams)] = famItems[it];
+			else
+				fams[count(fams)] = my_familiar();
 		}
 	}
-	CurrentFam.use_familiar();
 
 /*** Top Gear display lists ***/
-	sort fams by -valuation(gear["familiar"][index]);
-	foreach i in $slots[hat, back, shirt, weapon, off-hand, pants, acc1, familiar] {
+	sort fams by -valuation(gear["familiar"][index]);	foreach i in $slots[hat, back, shirt, weapon, off-hand, pants, acc1, familiar] {
 		int itemCount = count(gear[to_string(i)]); 
 		print_html("<b>Slot <i>" + i + "</i> items considered: " + itemCount + " printing top items in slot:</b>");
 
