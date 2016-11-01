@@ -545,7 +545,7 @@ void bestGear(string slotString, slot s) {
 			break;			
 		}
 		//this simultaneously checks if a piece can be equipped and tries to do so
-		if ((canEquip(g) && gearup(s, g)) || (s == $slot[familiar] && canAcquire(g) && fams[j].use_familiar() && canEquip(g) && gearup(s, g))) {	
+		if (valuation(g) > 0 && ((canEquip(g) && gearup(s, g)) || (s == $slot[familiar] && canAcquire(g) && fams[j].use_familiar() && canEquip(g) && gearup(s, g)))) {	
 			print_html("<b>Best Available " + s + ":</b> " + gearString(g));
 			print_html(string_modifier(g,"Modifiers"));
 			break;		
@@ -556,7 +556,7 @@ void bestGear(string slotString, slot s) {
 
 
 void main() {
-	print_html("<b>UberPvPOptimizer.ash by UberFerret, a Fork of PVPBestGear by Zekaonar</b>");
+	print_html("<b>UberPvPOptimizer.ash by UberFerret, a Fork of PVPBestGear by Zekaonar, maintained by digitrev</b>");
 	
 /**Call Preference/setting load **/
 	loadPvPProperties();	
@@ -812,7 +812,8 @@ void main() {
 	}
 
 /*** Top Gear display lists ***/
-	sort fams by -valuation(gear["familiar"][index]);	foreach i in $slots[hat, back, shirt, weapon, off-hand, pants, acc1, familiar] {
+	sort fams by -valuation(gear["familiar"][index]);
+	foreach i in $slots[hat, back, shirt, weapon, off-hand, pants, acc1, familiar] {
 		int itemCount = count(gear[to_string(i)]); 
 		print_html("<b>Slot <i>" + i + "</i> items considered: " + itemCount + " printing top items in slot:</b>");
 
