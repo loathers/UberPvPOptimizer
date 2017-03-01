@@ -635,6 +635,10 @@ void main() {
 		moarbooze = true;
 		print_html("<li>Moarrrrrr Booze!</li>");
 	}
+	if (index_of(page, "A Nice Cold One") != -1) {
+		moarbooze = true;
+		print_html("<li>A Nice Cold One</li>");
+	}
 	if (index_of(page, "Holiday Spirit(s)!") != -1) {
 		moarbooze = true;
 		print_html("<li>Moarrr Booze!</li>");
