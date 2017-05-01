@@ -650,6 +650,10 @@ void main() {
 		moarbooze = true;
 		print_html("<li>Moarrr Booze!</li>");
 	}
+	if (index_of(page, "Thirrrsty forrr Booze") != -1) {
+		moarbooze = true;
+		print_html("<li>Thirrrsty forrr Booze</li>");
+	}
 	if (index_of(page, "Broad Resistance Contest") != -1) {
 		broadResistance = true;
 		print_html("<li>Broad Resistance Contest</li>");
