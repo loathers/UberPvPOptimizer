@@ -584,7 +584,14 @@ void main() {
 		    print_html("<li>Laconic Dresser</li>");
 		}
 	}
-	if (index_of(page, "Outfit Compression") != -1) {
+	if (index_of(page, "Dressed in Rrrags") != -1) {
+		if (verbosity) {
+		    verbosity = false;  // Ignore them.
+		} else {
+		    laconic = true;
+		    print_html("<li>Laconic Dresser</li>");
+		}
+	}	if (index_of(page, "Outfit Compression") != -1) {
 		if (verbosity) {
 		    verbosity = false;  // Ignore them.
 		} else {
