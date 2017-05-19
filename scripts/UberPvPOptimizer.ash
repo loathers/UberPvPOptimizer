@@ -29,6 +29,7 @@ float weaponDmgWeight;
 float nakedWeight;
 float hexLetterWeight;
 float numeralWeight;
+float verbosityWeight;
 
 // Booleans for each pvp mini
 boolean laconic = false;
@@ -93,6 +94,7 @@ void loadPvPProperties()
 	setvar("PvP_negativeClassWeight", -5);				// Give a negative weight to items that are not for your class.
 	setvar("PvP_weaponDmgWeight", (0.5));					// messing with this
 	setvar("PvP_nakedWeight", (7.4));						//WORK IN PROGRESS
+	setvar("PvP_verbosityWeight", 1.0);
 
 	/***Load settings ***/
 	
@@ -118,6 +120,7 @@ void loadPvPProperties()
 	negativeClassWeight = vars["PvP_negativeClassWeight"].to_float();			// Off class items are given a 0, adjust as you see fit.
 	weaponDmgWeight = vars["PvP_weaponDmgWeight"].to_float();
 	nakedWeight = vars["PvP_nakedWeight"].to_float();	//WORK IN PROGRESS
+	verbosityWeight = vars["PvP_verbosityWeight"].to_float();
 	
 }
 
@@ -238,9 +241,9 @@ float numeric_modifier2(item i, string modifier) {
 float valuation(item i) {
 	float value = 0;
 	if (laconic)
-		value = 23 - nameLength(i);
+		value = (23 - nameLength(i))*verbosityWeight;
 	else if (verbosity)
-		value = nameLength(i);
+		value = nameLength(i)*verbosityWeight;
 		
 	if (letterCheck) {
 		value += letterCount(i,currentLetter)*letterMomentWeight;
