@@ -736,6 +736,11 @@ void main() {
 		powerWeight =  -powerWeight;
 		print_html("<li>Fashion Show</li>");
 	}		
+	if (index_of(page, "School Pride") != -1) {
+		lightestLoad = true;
+		powerWeight =  -powerWeight;
+		print_html("<li>School Pride</li>");
+	}		
 	if (index_of(page, "Spirit of Noel") != -1) {
 		letterCheck = true;	
 		currentLetter = "L";
