@@ -19,6 +19,7 @@ float nextLetterWeight;
 float itemDropWeight;
 float meatDropWeight;
 float boozeDropWeight;
+float foodDropWeight;
 float initiativeWeight;
 float combatWeight;
 float resistanceWeight;
@@ -30,6 +31,8 @@ float nakedWeight;
 float hexLetterWeight;
 float numeralWeight;
 float verbosityWeight;
+float autosellWeight;
+float familiarWeightWeight;
 
 // Booleans for each pvp mini
 boolean laconic = false;
@@ -56,6 +59,9 @@ boolean spookyDamage = false;
 boolean leastGear = false;
 boolean deface = false;
 boolean nines = false;
+boolean fooddrop = false;
+boolean familiarWeight = false;
+boolean autosell = false;
 
 //other variables
 string currentLetter;
@@ -85,6 +91,7 @@ void loadPvPProperties()
 	setvar("PvP_nextLetterWeight", 0.1);					// Example: allow a future letter to be a tie-breaker
 	setvar("PvP_itemDropWeight", (4.0/5.0));				// 4 per 5% drop Example: +8% items is worth 10 letters in laconic/verbosity
 	setvar("PvP_meatDropWeight", (3.0/5.0));				// 3 per 5% drop Example: +25% meat is worth 15 letters in laconic/verbosity
+	setvar("PvP_foodDropWeight", (3.0/5.0));				// 3 per 5% drop Example: +20% booze is worth 12 letters in laconic/verbosity	
 	setvar("PvP_boozeDropWeight", (3.0/5.0));				// 3 per 5% drop Example: +20% booze is worth 12 letters in laconic/verbosity
 	setvar("PvP_initiativeWeight", (4.0/10.0));			// 4 per 10% initiative Example: +20% initiative is worth 8 letters in laconic/verbosity
 	setvar("PvP_combatWeight", (15.0/5.0));				// 4 per 10% combat Example: +20% combat is worth 8 letters in laconic/verbosity
@@ -95,6 +102,8 @@ void loadPvPProperties()
 	setvar("PvP_weaponDmgWeight", (0.5));					// messing with this
 	setvar("PvP_nakedWeight", (7.4));						//WORK IN PROGRESS
 	setvar("PvP_verbosityWeight", 1.0);
+    setvar("PvP_familiarWeightWeight", 1.0);                 // WIP
+    setvar("PvP_autosellWeight", 1.0);                       // WIP
 
 	/***Load settings ***/
 	
@@ -112,6 +121,7 @@ void loadPvPProperties()
 	itemDropWeight = vars["PvP_itemDropWeight"].to_float();		// 4 per 5% drop Example: +8% items is worth 10 letters in laconic/verbosity
 	meatDropWeight = vars["PvP_meatDropWeight"].to_float();		// 3 per 5% drop Example: +25% meat is worth 15 letters in laconic/verbosity
 	boozeDropWeight = vars["PvP_boozeDropWeight"].to_float();		// 3 per 5% drop Example: +20% booze is worth 12 letters in laconic/verbosity
+	foodDropWeight = vars["PvP_foodDropWeight"].to_float();		// 3 per 5% drop Example: +20% booze is worth 12 letters in laconic/verbosity
 	initiativeWeight = vars["PvP_initiativeWeight"].to_float();	// 4 per 10% initiative Example: +20% initiative is worth 8 letters in laconic/verbosity
 	combatWeight = vars["PvP_combatWeight"].to_float();		// 4 per 10% combat Example: +20% combat is worth 8 letters in laconic/verbosity
 	resistanceWeight = vars["PvP_resistanceWeight"].to_float();			// Example: +1 Resistance to all elements equals 6 letters of laconic/verbosity
@@ -121,6 +131,8 @@ void loadPvPProperties()
 	weaponDmgWeight = vars["PvP_weaponDmgWeight"].to_float();
 	nakedWeight = vars["PvP_nakedWeight"].to_float();	//WORK IN PROGRESS
 	verbosityWeight = vars["PvP_verbosityWeight"].to_float();
+    familiarWeightWeight = vars["PvP_familiarWeightWeight"].to_float();                 // WIP
+    autosellWeight = vars["PvP_autosellWeight"].to_float();                       // WIP	
 	
 }
 
@@ -269,6 +281,9 @@ float valuation(item i) {
 
 	if (moarbooze)
 		value += numeric_modifier2(i,"Booze Drop")*boozeDropWeight;
+		
+	if (fooddrop)
+		value += numeric_modifier2(i,"Food Drop")*foodDropWeight;
 
 	if (showingInitiative)
 		value += numeric_modifier2(i,"Initiative")*initiativeWeight;
@@ -324,6 +339,14 @@ float valuation(item i) {
 			value += (110-get_power(i))*powerWeight;
 		}
 	}
+
+    if (familiarWeight) {
+        value += numeric_modifier2(i, "Familiar Weight")*familiarWeightWeight;
+    }
+
+    if (autosell) {
+        value += autosell_price(i)*autosellWeight;
+    }
 	/******
 	*
 	*Snipped Bjornify and Enthroning here
@@ -354,7 +377,10 @@ float valuation(item i, item i2) {
 				
 	if (moarbooze)
 		value += (numeric_modifier2(i,"Booze Drop")+numeric_modifier2(i2,"Booze Drop"))*boozeDropWeight;
-		
+
+	if (fooddrop)
+		value += (numeric_modifier2(i,"Food Drop")+numeric_modifier2(i2,"Booze Drop"))*boozeDropWeight;
+
 	if (showingInitiative)
 		value += (numeric_modifier2(i,"Initiative")+numeric_modifier2(i2,"Initiative"))*initiativeWeight;
 		
@@ -453,6 +479,8 @@ string gearString(item i) {
 		gearString += ", +" + numeric_modifier2(i,"Meat Drop") + "% Meat Drop";
 	if (moarbooze && numeric_modifier2(i,"Booze Drop") > 0)
 		gearString += ", +" + numeric_modifier2(i,"Booze Drop") + "% Booze Drop";
+	if (fooddrop && numeric_modifier2(i,"Food Drop") > 0)
+		gearString += ", +" + numeric_modifier2(i,"Food Drop") + "% Food Drop";
 	if (weaponDamage && numeric_modifier2(i,"Weapon Damage") > 0)
 		gearString += ", +" + numeric_modifier2(i,"Weapon Damage") + " Weapon Damage";
 	if (showingInitiative && numeric_modifier2(i,"Initiative") > 0)
@@ -516,7 +544,15 @@ string gearString(item i) {
 		float damage = numeric_modifier2(i,"Spooky Damage")+numeric_modifier2(i,"Spooky Spell Damage");
 		if (damage > 0)
 			gearString += ", +" + damage + " Spooky Damage";
-	}
+	}    
+	if (autosell) {
+        float price = autosell_price(i);
+        gearString += ", autosells for " + price + " meat";
+    }
+    if (autosell) {
+        float famWeight = numeric_modifier2(i, "Familiar Weight");
+        gearString += ", +" + famWeight + " Familiar Weight";
+    }
 	if (lightestLoad && (to_slot(i) == $slot[hat] || to_slot(i) == $slot[pants] || to_slot(i) == $slot[shirt]))
 		gearString += ", Power: " + get_power(i);		
 	if (available_amount(i) > 0)
@@ -539,8 +575,9 @@ string gearString(item i) {
 void bestGear(string slotString, slot s) {		
 	for j from 0 to Count(gear[slotString])-1 by 1 {
 		item g = gear[slotString][j];
-		if (boolean_modifier(g,"Single Equip") && equipped_amount(g) > 0)
+		if (boolean_modifier(g,"Single Equip") && equipped_amount(g) > 0){
 			continue;
+		}
 		//try to handle Barely Dressed mini
 		if (leastGear && valuation(g) < nakedWeight)
 		{
@@ -644,6 +681,10 @@ void main() {
 	if (index_of(page, "Moarrrrrr Booze!") != -1) {
 		moarbooze = true;
 		print_html("<li>Moarrrrrr Booze!</li>");
+	}
+	if (index_of(page, "New Tastes") != -1) {
+		fooddrop = true;
+		print_html("<li>New Tastes</li>");
 	}
 	if (index_of(page, "A Nice Cold One") != -1) {
 		moarbooze = true;
@@ -773,6 +814,19 @@ void main() {
 		string secs = substring(page,start+8,end);		
 		print_html("<li>Letter of the Moment: " + currentLetter + ", next " + nextLetter + " </li>");
 	}
+		if (index_of(page, "ASCII-7 of the moment") != -1) {
+		letterCheck = true;	
+		int start = index_of(page, "Who has the most <b>");
+		currentLetter = substring(page,start+20,start+21);
+//		currentLetter="X";			//hacky way to force optimizing a letter
+		start = index_of(page, "Changing to <b>");
+		nextLetter = substring(page,start+15,start+16);
+		start = index_of(page, "</b> in ");
+		int end = index_of(page," seconds.)");
+		string secs = substring(page,start+8,end);		
+		print_html("<li>ASCII-7 of the moment: " + currentLetter + ", next " + nextLetter + " </li>");
+	}
+	
 	if (index_of(page, "DEFACE") != -1) {
 		deface = true;	
 		print_html("<li>DEFACE</li>");
@@ -780,6 +834,18 @@ void main() {
 	if (index_of(page, "Dressed to the 9s") != -1) {
 		nines = true;
 		print_html("<li>Dressed to the 9s</li>");
+	}
+	    if (index_of(page, "Beast Master") != -1) {
+		familiarWeight = true;
+		print_html("<li>Beast Master</li>");
+	}
+    if (index_of(page, "Loot Hunter") != -1) {
+		egghunt = true;
+		print_html("<li>Loot Hunter</li>");
+	}
+    if (index_of(page, "Safari Chic") != -1) {
+		autosell = true;
+		print_html("<li>Safari Chic</li>");
 	}
 	print_html("</ul>");
 	
@@ -902,7 +968,7 @@ void main() {
 		}
 	}
 	bestGear("weapon", $slot[weapon]);
-	
+
 	if (available_amount(primaryWeapon)-equipped_amount(primaryWeapon) > 1 || (historical_price(primaryWeapon) < maxBuyPrice && historical_price(primaryWeapon) > 0) && !isChefStaff(primaryWeapon))
 		secondaryWeapon = primaryWeapon;
 	else {
