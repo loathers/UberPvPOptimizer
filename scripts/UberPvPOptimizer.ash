@@ -2,7 +2,7 @@
 *	Updated by Crowther
 *	Rewritten by UberFerret		
 *	Formerly maintained by digitrev	
-*   Maintained by L.A.S.S. */
+*	Maintained by L.A.S.S. */
 script "UberPvPOptimizer.ash";
 import <zlib.ash>;
 
