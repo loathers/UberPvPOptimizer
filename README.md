@@ -8,4 +8,4 @@ Configuration for the script can be seen typing `zlib pvp` in the GCLI.
 
 # Installation
 
-`svn checkout https://github.com/Loathing-Associates-Scripting-Society/UberPvPOptimizer/branches/master`
+```git checkout https://github.com/Loathing-Associates-Scripting-Society/UberPvPOptimizer.git```

@@ -1,9 +1,9 @@
 /*	Original script written by Zekaonar
 *	Updated by Crowther
 *	Rewritten by UberFerret		
-*	Maintained by digitrev	*/
+*	Formerly maintained by digitrev	
+*   Maintained by L.A.S.S. */
 script "UberPvPOptimizer.ash";
-notify digitrev;
 import <zlib.ash>;
 
 //Declare all the variables
