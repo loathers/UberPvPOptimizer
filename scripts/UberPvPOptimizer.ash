@@ -231,8 +231,8 @@ string link(String name) {
 
 
 /** version of numeric modifier that filters out conditional bonuses like zone restrictions: The Sea ***/
-float numeric_modifier2(item i, string modifier) {
-	if (numeric_modifier(i,modifier) != 0) {
+float numeric_modifier2(item i, string mod) {
+	if (numeric_modifier(i,mod) != 0) {
 		string mods = string_modifier(i,"Modifiers");
 		class cl = getClass( i );
 		string[int] arr = split_string(mods,",");
@@ -240,10 +240,10 @@ float numeric_modifier2(item i, string modifier) {
 		if (cl != $class[none] && cl != my_class())
 				return negativeClassWeight;
 		for j from 0 to Count(arr)-1 by 1 {
-			if (arr[j].index_of(modifier) !=-1) {
+			if (arr[j].index_of(mod) !=-1) {
 				if (arr[j].index_of("The Sea") != -1 || arr[j].index_of("Unarmed") != -1 || arr[j].index_of("sporadic") != -1)
 					return 0;
-				else return numeric_modifier(i,modifier);
+				else return numeric_modifier(i,mod);
 			}
 		}		
 	}
