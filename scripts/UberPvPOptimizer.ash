@@ -379,7 +379,7 @@ float valuation(item i, item i2) {
 		value += (numeric_modifier2(i,"Booze Drop")+numeric_modifier2(i2,"Booze Drop"))*boozeDropWeight;
 
 	if (fooddrop)
-		value += (numeric_modifier2(i,"Food Drop")+numeric_modifier2(i2,"Booze Drop"))*boozeDropWeight;
+		value += (numeric_modifier2(i,"Food Drop")+numeric_modifier2(i2,"Food Drop"))*foodDropWeight;
 
 	if (showingInitiative)
 		value += (numeric_modifier2(i,"Initiative")+numeric_modifier2(i2,"Initiative"))*initiativeWeight;
