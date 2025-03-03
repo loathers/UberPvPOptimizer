@@ -642,11 +642,15 @@ void main() {
 	if (index_of(page, "Showing Initiative") != -1) {
 		showingInitiative = true;
 		print_html("<li>Showing Initiative</li>");
-	}	
+	}
 	if (index_of(page, "Early Shopper") != -1) {
 		showingInitiative = true;
 		print_html("<li>Early Shopper</li>");
-	}	
+	}
+	if (index_of(page, "Motivated by Irony") != -1) {
+		showingInitiative = true;
+		print_html("<li>Motivated by Irony</li>");
+	}
 	if (index_of(page, "Peace on Earth") != -1) {
 		peaceonearth = true;
 		combatWeight = -combatWeight;
@@ -763,11 +767,15 @@ void main() {
 	if (index_of(page, "Lightest Load") != -1) {
 		lightestLoad = true;
 		print_html("<li>Lightest Load</li>");
-	}		
+	}
 	if (index_of(page, "Optimal Dresser") != -1) {
 		lightestLoad = true;
 		print_html("<li>Optimal Dresser</li>");
-	}		
+	}
+	if (index_of(page, "Wardrobe Malfunction") != -1) {
+		lightestLoad = true;
+		print_html("<li>Wardrobe Malfunction</li>");
+	}
 	if (index_of(page, "Barely Dressed") != -1) {
 		leastGear = true;
 		print_html("<li>Barely Dressed</li>");
@@ -850,8 +858,7 @@ void main() {
 	print_html("</ul>");
 	
 /*** unequip all slots ***/
-	foreach i in $slots[hat, back, shirt, weapon, off-hand, pants, acc1, acc2, acc3, familiar] 
-		equip(i,$item[none]);
+	outfit("Birthday Suit");
 	print_html("<br/>");	
 /*******
 	Snipped familiars
