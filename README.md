@@ -8,4 +8,6 @@ Configuration for the script can be seen typing `zlib pvp` in the GCLI.
 
 # Installation
 
-```git checkout loathers/UberPvPOptimizer```
+```
+git checkout loathers/UberPvPOptimizer
+```
