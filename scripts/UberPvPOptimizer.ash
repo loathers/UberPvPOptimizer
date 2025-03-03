@@ -1001,6 +1001,9 @@ void main() {
 		print_html(string_modifier(bestOffhand,"Modifiers"));				
 		
 	} else {
+		if (equipped_item($slot[weapon]) == $item[none]) {
+			gearup($slot[weapon], primaryWeapon);
+		}
 		gearup($slot[off-hand],secondaryWeapon);
 		print_html("<b>Best 2nd weapon:</b> " + gearString(secondaryWeapon));
 		print_html(string_modifier(secondaryWeapon,"Modifiers"));						
